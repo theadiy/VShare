@@ -1,9 +1,123 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".RegisterActivity">
+    tools:context=".RegisterActivity"
+    android:orientation="vertical"
+    android:background="@color/colorPrimaryDark">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="VS App"
+        android:textSize="50sp"
+        android:id="@id/logo"
+        android:gravity="center"
+        android:textColor="@color/colorAccent"
+        android:fontFamily="casual"
+        />
+
+    <LinearLayout
+        android:layout_width="400dp"
+        android:paddingLeft="20dp"
+        android:layout_centerInParent="true"
+        android:paddingRight="20dp"
+        android:orientation="vertical"
+        android:id="@id/registerLinearLayout"
+        android:layout_height="wrap_content">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="REGISTER"
+            android:gravity="center"
+            android:textSize="20sp"
+            android:id="@id/loginTextView"
+            android:textColor="@color/colorAccent"
+            android:layout_below="@id/logo"
+            />
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginTop="15dp"
+            android:elevation="2dp"
+            android:layout_marginLeft="2dp"
+            android:layout_marginRight="2dp"
+            android:hint="Username"
+            android:background="@drawable/container"
+            android:backgroundTint="@color/ColorWhite"
+
+            android:paddingLeft="10dp"
+            android:id="@id/username"
+            android:inputType="textEmailAddress"
+            />
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginTop="15dp"
+            android:elevation="2dp"
+            android:layout_marginLeft="2dp"
+            android:layout_marginRight="2dp"
+            android:hint="Email"
+            android:background="@drawable/container"
+            android:backgroundTint="@color/ColorWhite"
+            android:paddingLeft="10dp"
+            android:id="@id/regemail"
+            android:inputType="textEmailAddress"
+            />
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginTop="15dp"
+            android:elevation="2dp"
+            android:hint="Password"
+            android:paddingLeft="10dp"
+            android:layout_marginLeft="2dp"
+            android:layout_marginRight="2dp"
+            android:background="@drawable/container"
+            android:backgroundTint="@color/ColorWhite"
+            android:id="@id/registerPassword"
+            android:inputType="textPassword"
+            />
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginTop="15dp"
+            android:elevation="2dp"
+            android:hint="Re-enter Password"
+            android:paddingLeft="10dp"
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="2dp"
+            android:layout_marginRight="2dp"
+            android:background="@drawable/container"
+            android:id="@id/registerUsername2"
+            android:backgroundTint="@color/ColorWhite"
+            android:inputType="text"
+            />
+    </LinearLayout>
+
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:text="SIGN UP"
+        android:textColor="#fff"
+        android:layout_marginTop="10dp"
+        android:layout_gravity="center"
+        android:textSize="16sp"
+        android:textAllCaps="false"
+        android:backgroundTint="@color/colorAccent"
+        android:elevation="2dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:background="@drawable/container"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/registerLinearLayout"
+        android:id="@id/registerButton"/>
+
+</RelativeLayout>

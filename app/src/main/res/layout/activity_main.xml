@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity"
     android:orientation="vertical"
-    android:background="@color/ColorWhite">
+    android:background="@color/colorPrimaryDark">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -31,7 +31,7 @@
 
         <Button
             android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_height="40dp"
             android:text="Login"
             android:id="@id/login"
             android:elevation="6dp"
@@ -43,11 +43,12 @@
             android:textAllCaps="false"
             android:layout_below="@id/logo"
             android:layout_marginBottom="15dp"
+            android:background="@drawable/container"
             />
 
         <Button
             android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_height="40dp"
             android:backgroundTint="@color/colorAccent"
             android:textSize="15sp"
             android:textColor="#fff"
@@ -58,11 +59,13 @@
             android:textAllCaps="false"
             android:layout_centerHorizontal="true"
             android:layout_below="@id/login"
-            android:layout_marginBottom="15dp"/>
+            android:layout_marginBottom="15dp"
+            android:background="@drawable/container"
+            />
 
         <Button
             android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_height="40dp"
             android:layout_gravity="center"
             android:text="Sign in with Google"
             android:backgroundTint="@color/colorAccent"
@@ -73,7 +76,9 @@
             android:elevation="6dp"
             android:id="@id/GoogleSignInButton"
             android:layout_below="@id/register"
-            android:layout_marginBottom="15dp"/>
+            android:layout_marginBottom="15dp"
+            android:background="@drawable/container"
+            />
 
     </RelativeLayout>
 </RelativeLayout>

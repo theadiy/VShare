@@ -11,4 +11,10 @@
     <item name="LoginButton" type="id" />
     <item name="forgotPasswordTextView" type="id" />
     <item name="loginTextView" type="id" />
+    <item name="registerLinearLayout" type="id" />
+    <item name="username" type="id" />
+    <item name="regemail" type="id" />
+    <item name="registerPassword" type="id" />
+    <item name="registerUsername2" type="id" />
+    <item name="registerButton" type="id" />
 </resources>
