@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity"
+    android:orientation="vertical"
+    android:background="@color/ColorWhite">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="400dp"
+        android:layout_centerInParent="true"
+        android:paddingLeft="40dp"
+        android:paddingRight="40dp"
+        android:gravity="center">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="VS App"
+            android:textSize="50sp"
+            android:id="@id/logo"
+            android:gravity="center"
+            android:textColor="@color/colorAccent"
+            android:fontFamily="casual"
+            android:layout_marginBottom="15dp"/>
+
+
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:text="Login"
+            android:id="@id/login"
+            android:elevation="6dp"
+            android:textSize="15sp"
+            android:textColor="#ffff"
+            android:backgroundTint="@color/colorAccent"
+            android:gravity="center"
+            android:layout_centerHorizontal="true"
+            android:textAllCaps="false"
+            android:layout_below="@id/logo"
+            android:layout_marginBottom="15dp"
+            />
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:backgroundTint="@color/colorAccent"
+            android:textSize="15sp"
+            android:textColor="#fff"
+            android:id="@id/register"
+            android:text="Register New Account"
+            android:elevation="6dp"
+            android:gravity="center"
+            android:textAllCaps="false"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@id/login"
+            android:layout_marginBottom="15dp"/>
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_gravity="center"
+            android:text="Sign in with Google"
+            android:backgroundTint="@color/colorAccent"
+            android:layout_centerHorizontal="true"
+            android:textColor="#fff"
+            android:textSize="15sp"
+            android:textAllCaps="false"
+            android:elevation="6dp"
+            android:id="@id/GoogleSignInButton"
+            android:layout_below="@id/register"
+            android:layout_marginBottom="15dp"/>
+
+    </RelativeLayout>
+</RelativeLayout>

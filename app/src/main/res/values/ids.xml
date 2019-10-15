@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="signIn" type="id" />
+    <item name="GoogleSignInButton" type="id" />
+    <item name="register" type="id" />
+    <item name="login" type="id" />
+    <item name="logo" type="id" />
+    <item name="loginLinearLayout" type="id" />
+    <item name="LoginEmailEditText" type="id" />
+    <item name="LoginPasswordEditText" type="id" />
+    <item name="LoginButton" type="id" />
+    <item name="forgotPasswordTextView" type="id" />
+    <item name="loginTextView" type="id" />
+</resources>
