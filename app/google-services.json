@@ -1,0 +1,93 @@
+{
+  "project_info": {
+    "project_number": "308299953737",
+    "firebase_url": "https://videosharingapp-e3c10.firebaseio.com",
+    "project_id": "videosharingapp-e3c10",
+    "storage_bucket": "videosharingapp-e3c10.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:308299953737:android:3cd45c4b0f5c1ef5",
+        "android_client_info": {
+          "package_name": "org.el.videosharingapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "308299953737-8r5ap5vmaulorqdo1vf7bpd21cbruci8.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "org.el.videosharingapp",
+            "certificate_hash": "c580631eac7a45c850fc1cbe1537432e19ca6b40"
+          }
+        },
+        {
+          "client_id": "308299953737-brdpf107n4fha0qrv3lpu9n7scncqoms.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "org.el.videosharingapp",
+            "certificate_hash": "5425cec506ec9d0d998077c4e0f1d4464b56de32"
+          }
+        },
+        {
+          "client_id": "308299953737-hmspdk4q86rm43bu7g8k88lo5kou4u7h.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDasTxHy4VfhdLuzJVZIQMcsQ8kC0Id4rY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "308299953737-hmspdk4q86rm43bu7g8k88lo5kou4u7h.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:308299953737:android:0b26c3b7e8f7f8477bf198",
+        "android_client_info": {
+          "package_name": "org.terna.vshare"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "308299953737-8aqcb44h5d0e626vaamacjvg8eag1bdv.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "org.terna.vshare",
+            "certificate_hash": "c580631eac7a45c850fc1cbe1537432e19ca6b40"
+          }
+        },
+        {
+          "client_id": "308299953737-hmspdk4q86rm43bu7g8k88lo5kou4u7h.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDasTxHy4VfhdLuzJVZIQMcsQ8kC0Id4rY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "308299953737-hmspdk4q86rm43bu7g8k88lo5kou4u7h.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

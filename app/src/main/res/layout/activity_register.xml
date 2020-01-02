@@ -49,7 +49,6 @@
             android:hint="Username"
             android:background="@drawable/container"
             android:backgroundTint="@color/ColorWhite"
-
             android:paddingLeft="10dp"
             android:id="@id/username"
             android:inputType="textEmailAddress"
@@ -81,7 +80,7 @@
             android:layout_marginRight="2dp"
             android:background="@drawable/container"
             android:backgroundTint="@color/ColorWhite"
-            android:id="@id/registerPassword"
+            android:id="@id/regPassword"
             android:inputType="textPassword"
             />
         <EditText
@@ -95,7 +94,7 @@
             android:layout_marginLeft="2dp"
             android:layout_marginRight="2dp"
             android:background="@drawable/container"
-            android:id="@id/registerUsername2"
+            android:id="@id/regPassword2"
             android:backgroundTint="@color/ColorWhite"
             android:inputType="text"
             />

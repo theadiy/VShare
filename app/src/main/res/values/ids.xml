@@ -17,4 +17,8 @@
     <item name="registerPassword" type="id" />
     <item name="registerUsername2" type="id" />
     <item name="registerButton" type="id" />
+    <item name="LoginOptionsLayout" type="id" />
+    <item name="signOutButton" type="id" />
+    <item name="regPassword" type="id" />
+    <item name="regPassword2" type="id" />
 </resources>

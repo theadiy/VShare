@@ -15,7 +15,8 @@
         android:layout_centerInParent="true"
         android:paddingLeft="40dp"
         android:paddingRight="40dp"
-        android:gravity="center">
+        android:gravity="center"
+        android:id="@id/LoginOptionsLayout">
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -63,22 +64,33 @@
             android:background="@drawable/container"
             />
 
-        <Button
-            android:layout_width="match_parent"
+        <com.google.android.gms.common.SignInButton
+            android:layout_width="wrap_content"
             android:layout_height="40dp"
             android:layout_gravity="center"
-            android:text="Sign in with Google"
-            android:backgroundTint="@color/colorAccent"
             android:layout_centerHorizontal="true"
             android:textColor="#fff"
             android:textSize="15sp"
-            android:textAllCaps="false"
             android:elevation="6dp"
             android:id="@id/GoogleSignInButton"
             android:layout_below="@id/register"
             android:layout_marginBottom="15dp"
-            android:background="@drawable/container"
             />
 
     </RelativeLayout>
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="sign out"
+        android:textAllCaps="false"
+        android:background="@drawable/container"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:textSize="11sp"
+        android:textColor="@color/colorAccent"
+        android:layout_margin="10dp"
+        android:id="@id/signOutButton"
+
+
+        />
 </RelativeLayout>
