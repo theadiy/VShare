@@ -31,7 +31,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     Button loginButton, RegisterButton, signoutButton;
     SignInButton GoogleSigninButton;
     private FirebaseAuth mAuth;
-    GoogleSignInClient mGoogleSignInClient;
+    static GoogleSignInClient mGoogleSignInClient = null;
 
     private AlertDialog.Builder alert;
     private AlertDialog message;
@@ -85,7 +85,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             case R.id.signOutButton:
                 googleSignOut();
-                Toast.makeText(MainActivity.this,"Signed out",Toast.LENGTH_SHORT).show();
 
         }
 
@@ -155,19 +154,28 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onStart();
         // Check if user is signed in (non-null) and update UI accordingly.
         FirebaseUser currentUser = mAuth.getCurrentUser();
-        Log.e(TAG,"Already signed-in "+currentUser.getDisplayName());
-        Toast.makeText(MainActivity.this,"Already signed-in as "+currentUser.getDisplayName(),Toast.LENGTH_LONG).show();
-        //updateUI(currentUser);
-        //intent to home screen
+
+
+        if (mGoogleSignInClient != null){
+            Log.e(TAG,"Already signed-in "+currentUser.getDisplayName());
+            Toast.makeText(MainActivity.this,"Already signed-in as "+currentUser.getDisplayName(),Toast.LENGTH_LONG).show();
+            //updateUI(currentUser);
+            //intent to home screen
+        }
+
     }
 
     public void googleSignOut()
     {
+        mGoogleSignInClient.signOut();
         mGoogleSignInClient.revokeAccess().addOnCompleteListener(this, new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 Toast.makeText(MainActivity.this,"Sign out",Toast.LENGTH_SHORT).show();
+                Log.e(TAG,"---------------"+mAuth.getCurrentUser().getDisplayName());
             }
         });
+        mGoogleSignInClient = null;
+
     }
 }
