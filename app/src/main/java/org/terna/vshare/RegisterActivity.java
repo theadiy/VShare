@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -26,6 +27,9 @@ public class RegisterActivity extends AppCompatActivity {
     String uname, email, pass, pass2;
 
     private FirebaseAuth mAuth;
+
+    SharedPreferences sharedPreferences ;
+    SharedPreferences.Editor myEdit;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +56,9 @@ public class RegisterActivity extends AppCompatActivity {
                 pass = regpassword.getText().toString();
                 pass2 = regpassword2.getText().toString();
 
+                sharedPreferences = getSharedPreferences("user", MODE_PRIVATE);
+                myEdit = sharedPreferences.edit();
+
 
                 // check for username
                 // check email
@@ -67,14 +74,23 @@ public class RegisterActivity extends AppCompatActivity {
                                     if (task.isSuccessful()) {
                                         // Sign in success, update UI with the signed-in user's information
                                         Log.d(TAG, "createUserWithEmail:success");
-                                        FirebaseUser user = mAuth.getCurrentUser();
-                                        //updateUI(user);
                                         Toast.makeText(RegisterActivity.this, "Successfully registered.",
                                                 Toast.LENGTH_SHORT).show();
+
+                                        FirebaseUser user = mAuth.getCurrentUser();
+                                        //updateUI(user);
+
+                                        myEdit.putString("email",user.getEmail());
+                                        myEdit.putString("uid",user.getUid());
+                                        myEdit.apply();
+
+                                        Intent intent = new Intent(RegisterActivity.this,Main2Activity.class);
+                                        startActivity(intent);
+
                                     } else {
                                         // If sign in fails, display a message to the user.
                                         Log.w(TAG, "createUserWithEmail:failure", task.getException());
-                                        Toast.makeText(RegisterActivity.this, "Authentication failed.",
+                                        Toast.makeText(RegisterActivity.this, "Authentication failed."+task.getException().getMessage(),
                                                 Toast.LENGTH_SHORT).show();
                                         //updateUI(null);
                                     }

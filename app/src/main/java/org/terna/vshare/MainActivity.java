@@ -6,6 +6,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -31,12 +32,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     Button loginButton, RegisterButton, signoutButton;
     SignInButton GoogleSigninButton;
     private FirebaseAuth mAuth;
-    static GoogleSignInClient mGoogleSignInClient = null;
+    GoogleSignInClient mGoogleSignInClient;
 
     private AlertDialog.Builder alert;
     private AlertDialog message;
     private static final String TAG = "MainAcitvity";
 
+    SharedPreferences sharedPreferences ;
+    SharedPreferences.Editor myEdit;
 
     private static final int RC_SIGN_IN = 2;
     @Override
@@ -50,6 +53,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         signoutButton = findViewById(R.id.signOutButton);
 
         mAuth = FirebaseAuth.getInstance();
+
+        sharedPreferences = getSharedPreferences("user", MODE_PRIVATE);
+        myEdit = sharedPreferences.edit();
 
         loginButton.setOnClickListener(this);
         RegisterButton.setOnClickListener(this);
@@ -136,6 +142,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                             FirebaseUser user = mAuth.getCurrentUser();
 
+                            myEdit.putString("email",user.getEmail());
+                            myEdit.putString("uid",user.getUid());
+                            myEdit.apply();
+
+                            Intent intent = new Intent(MainActivity.this,Main2Activity.class);
+                            startActivity(intent);
+
+
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.e(TAG, "signInWithCredential:failure", task.getException());
@@ -156,9 +170,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         FirebaseUser currentUser = mAuth.getCurrentUser();
 
 
-        if (mGoogleSignInClient != null){
-            Log.e(TAG,"Already signed-in "+currentUser.getDisplayName());
-            Toast.makeText(MainActivity.this,"Already signed-in as "+currentUser.getDisplayName(),Toast.LENGTH_LONG).show();
+        if (sharedPreferences.contains("email")){
+            Log.e(TAG,"Already signed-in "+sharedPreferences.getString("email",""));
+            Toast.makeText(MainActivity.this,"Already signed-in as "+sharedPreferences.getString("email",""),Toast.LENGTH_LONG).show();
             //updateUI(currentUser);
             //intent to home screen
         }
@@ -167,6 +181,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     public void googleSignOut()
     {
+
+        myEdit.clear();
+        myEdit.apply();
+
+
         mGoogleSignInClient.signOut();
         mGoogleSignInClient.revokeAccess().addOnCompleteListener(this, new OnCompleteListener<Void>() {
             @Override
@@ -175,7 +194,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 Log.e(TAG,"---------------"+mAuth.getCurrentUser().getDisplayName());
             }
         });
-        mGoogleSignInClient = null;
 
     }
 }
