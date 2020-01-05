@@ -19,11 +19,11 @@ public class Main2Activity extends AppCompatActivity {
         setContentView(R.layout.activity_main2);
 
         //assign video
-        mVideosListView = (ListView) findViewById(R.id.videoListView);
+        //mVideosListView = (ListView) findViewById(R.id.videoListView);
 
         //create videos
 
-        Video v1 = new Video("http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4");
+        /*Video v1 = new Video("http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4");
         Video v2 = new Video("http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4");
         Video v3 = new Video("http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4");
         Video v4 = new Video("http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerFun.mp4");
@@ -36,8 +36,10 @@ public class Main2Activity extends AppCompatActivity {
         mVideosList.add(v5);
 
 
-        /***populate video list to adapter**/
+        *//***populate video list to adapter**//*
         mVideoAdapter = new VideoAdapter(this, mVideosList);
-        mVideosListView.setAdapter(mVideoAdapter);
+        mVideosListView.setAdapter(mVideoAdapter);*/
+
+
     }
 }

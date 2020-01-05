@@ -6,28 +6,41 @@
     android:layout_height="match_parent"
     tools:context=".RegisterActivity"
     android:orientation="vertical"
-    android:background="@color/colorPrimaryDark">
+    android:background="@color/colorPrimary"
+    android:clipChildren="false"
+    android:clipToPadding="false">
 
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="VS App"
-        android:textSize="50sp"
+        android:textSize="40sp"
         android:id="@id/logo"
         android:gravity="center"
-        android:textColor="@color/colorAccent"
+        android:textColor="@color/ColorWhite"
         android:fontFamily="casual"
+        android:layout_marginTop="15dp"
+
         />
 
     <LinearLayout
-        android:layout_width="400dp"
+        android:layout_width="370dp"
         android:paddingLeft="20dp"
         android:layout_centerInParent="true"
         android:paddingRight="20dp"
         android:orientation="vertical"
         android:id="@id/registerLinearLayout"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:paddingStart="30dp"
+        android:paddingEnd="30dp"
+        android:paddingBottom="50dp"
+        android:paddingTop="50dp"
+        android:background="@drawable/container"
+        android:elevation="10dp"
+        android:clipChildren="false"
+        android:clipToPadding="false"
+        >
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -42,29 +55,25 @@
         <EditText
             android:layout_width="match_parent"
             android:layout_height="40dp"
-            android:layout_marginTop="15dp"
             android:elevation="2dp"
-            android:layout_marginLeft="2dp"
-            android:layout_marginRight="2dp"
             android:hint="Username"
             android:background="@drawable/container"
-            android:backgroundTint="@color/ColorWhite"
             android:paddingLeft="10dp"
+            android:textColorHint="@color/colorLightPrimary"
             android:id="@id/username"
             android:inputType="textEmailAddress"
+            android:layout_marginTop="30dp"
             />
 
         <EditText
             android:layout_width="match_parent"
             android:layout_height="40dp"
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="30dp"
             android:elevation="2dp"
-            android:layout_marginLeft="2dp"
-            android:layout_marginRight="2dp"
             android:hint="Email"
             android:background="@drawable/container"
-            android:backgroundTint="@color/ColorWhite"
             android:paddingLeft="10dp"
+            android:textColorHint="@color/colorLightPrimary"
             android:id="@id/regemail"
             android:inputType="textEmailAddress"
             />
@@ -72,51 +81,43 @@
         <EditText
             android:layout_width="match_parent"
             android:layout_height="40dp"
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="30dp"
             android:elevation="2dp"
             android:hint="Password"
             android:paddingLeft="10dp"
-            android:layout_marginLeft="2dp"
-            android:layout_marginRight="2dp"
+            android:textColorHint="@color/colorLightPrimary"
             android:background="@drawable/container"
-            android:backgroundTint="@color/ColorWhite"
             android:id="@id/regPassword"
             android:inputType="textPassword"
             />
         <EditText
             android:layout_width="match_parent"
             android:layout_height="40dp"
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="30dp"
             android:elevation="2dp"
-            android:hint="Re-enter Password"
             android:paddingLeft="10dp"
-            android:layout_marginBottom="10dp"
-            android:layout_marginLeft="2dp"
-            android:layout_marginRight="2dp"
+            android:hint="Re-enter Password"
+            android:textColorHint="@color/colorLightPrimary"
             android:background="@drawable/container"
             android:id="@id/regPassword2"
-            android:backgroundTint="@color/ColorWhite"
-            android:inputType="text"
+            android:inputType="textPassword"
             />
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Register"
+            android:textColor="@color/ColorWhite"
+            android:layout_marginTop="35dp"
+            android:layout_gravity="center"
+            android:textSize="16sp"
+            android:textAllCaps="false"
+            android:backgroundTint="@color/colorAccent"
+            android:elevation="2dp"
+            android:background="@drawable/container"
+            android:id="@id/registerButton"/>
     </LinearLayout>
 
 
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:text="SIGN UP"
-        android:textColor="#fff"
-        android:layout_marginTop="10dp"
-        android:layout_gravity="center"
-        android:textSize="16sp"
-        android:textAllCaps="false"
-        android:backgroundTint="@color/colorAccent"
-        android:elevation="2dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:background="@drawable/container"
-        android:layout_centerHorizontal="true"
-        android:layout_below="@id/registerLinearLayout"
-        android:id="@id/registerButton"/>
+
 
 </RelativeLayout>

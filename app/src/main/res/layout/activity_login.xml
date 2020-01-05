@@ -4,9 +4,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorPrimaryDark"
+    android:background="@color/colorPrimary"
     android:orientation="vertical"
-    android:layout_gravity="center">
+    android:layout_gravity="center"
+    android:clipChildren="false"
+    android:clipToPadding="false">
 
     <TextView
         android:layout_width="match_parent"
@@ -15,66 +17,73 @@
         android:textSize="50sp"
         android:id="@id/logo"
         android:gravity="center"
-        android:textColor="@color/colorAccent"
+        android:textColor="@color/ColorWhite"
         android:fontFamily="casual"
+        android:layout_marginTop="40dp"
+        android:layout_marginBottom="40dp"
         />
 
 
 
     <LinearLayout
-        android:layout_width="400dp"
-        android:paddingLeft="20dp"
+        android:layout_width="370dp"
         android:layout_centerInParent="true"
-        android:paddingRight="20dp"
         android:orientation="vertical"
         android:id="@id/loginLinearLayout"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:paddingStart="30dp"
+        android:paddingEnd="30dp"
+        android:paddingBottom="80dp"
+        android:paddingTop="80dp"
+        android:background="@drawable/container"
+        android:backgroundTint="@color/ColorWhite"
+        android:elevation="10dp"
+        android:clipChildren="false"
+        android:clipToPadding="false">
+
         <TextView
+            android:id="@id/loginTextView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="LOGIN"
             android:gravity="center"
-            android:textSize="20sp"
-            android:id="@id/loginTextView"
+            android:text="LOGIN"
             android:textColor="@color/colorAccent"
-            android:layout_below="@id/logo"
-            />
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:layout_marginTop="15dp"
-            android:elevation="2dp"
-            android:layout_marginLeft="2dp"
-            android:layout_marginRight="2dp"
-            android:hint="Email"
-            android:backgroundTint="@color/ColorWhite"
-            android:paddingLeft="10dp"
-            android:id="@id/LoginEmailEditText"
-            android:inputType="textEmailAddress"
-            android:background="@drawable/container"
+            android:textSize="20sp"
             />
 
         <EditText
             android:layout_width="match_parent"
             android:layout_height="40dp"
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="30dp"
+            android:elevation="2dp"
+            android:hint="Email"
+            android:paddingLeft="10dp"
+            android:textColorHint="@color/colorLightPrimary"
+            android:id="@id/LoginEmailEditText"
+            android:inputType="textEmailAddress"
+            android:background="@drawable/container"
+
+            />
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginTop="30dp"
             android:elevation="2dp"
             android:hint="password"
             android:paddingLeft="10dp"
-            android:layout_marginLeft="2dp"
-            android:layout_marginRight="2dp"
+            android:textColorHint="@color/colorLightPrimary"
             android:background="@drawable/container"
-            android:backgroundTint="@color/ColorWhite"
             android:id="@id/LoginPasswordEditText"
             android:inputType="textPassword"
             />
 
         <Button
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:text="Login"
-            android:textColor="#fff"
-            android:layout_marginTop="10dp"
+            android:textColor="@color/ColorWhite"
+            android:layout_marginTop="30dp"
             android:layout_gravity="center"
             android:textSize="16sp"
             android:textAllCaps="false"
@@ -89,8 +98,8 @@
         android:layout_height="wrap_content"
         android:text="Forgot Password ?"
         android:textSize="16sp"
-        android:textColor="@color/colorAccent"
         android:id="@id/forgotPasswordTextView"
+        android:textColor="@color/ColorWhite"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="10dp"
         android:layout_below="@id/loginLinearLayout"/>

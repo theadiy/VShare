@@ -10,7 +10,10 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
@@ -33,6 +36,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     SignInButton GoogleSigninButton;
     private FirebaseAuth mAuth;
     GoogleSignInClient mGoogleSignInClient;
+    RelativeLayout loginOptionsLayout;
 
     private AlertDialog.Builder alert;
     private AlertDialog message;
@@ -40,6 +44,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     SharedPreferences sharedPreferences ;
     SharedPreferences.Editor myEdit;
+
+    Animation fromLeft, fromRight, fromBottom ,fromBottom2 ,fromBottom3 ,fromTop, rotate, zoomIn;
 
     private static final int RC_SIGN_IN = 2;
     @Override
@@ -51,6 +57,130 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         RegisterButton = findViewById(R.id.register);
         GoogleSigninButton = findViewById(R.id.GoogleSignInButton);
         signoutButton = findViewById(R.id.signOutButton);
+        loginOptionsLayout = findViewById(R.id.LoginOptionsLayout);
+
+        loginButton.setVisibility(View.INVISIBLE);
+        RegisterButton.setVisibility(View.INVISIBLE);
+        GoogleSigninButton.setVisibility(View.INVISIBLE);
+        signoutButton.setVisibility(View.INVISIBLE);
+        loginOptionsLayout.setVisibility(View.INVISIBLE);
+
+
+        fromLeft = AnimationUtils.loadAnimation(this,R.anim.from_left);
+        fromRight = AnimationUtils.loadAnimation(this,R.anim.from_right);
+        fromBottom = AnimationUtils.loadAnimation(this,R.anim.from_bottom);
+        fromBottom2 = AnimationUtils.loadAnimation(this,R.anim.from_bottom);
+        fromBottom3 = AnimationUtils.loadAnimation(this,R.anim.from_bottom);
+        fromTop = AnimationUtils.loadAnimation(this,R.anim.from_top);
+        rotate = AnimationUtils.loadAnimation(this,R.anim.rotate);
+        zoomIn = AnimationUtils.loadAnimation(this,R.anim.zoom_in);
+
+
+
+
+        loginOptionsLayout.setAnimation(fromBottom);
+        loginOptionsLayout.setVisibility(View.VISIBLE);
+        loginOptionsLayout.getAnimation().setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+
+
+                loginButton.setAnimation(fromLeft);
+                loginButton.setVisibility(View.VISIBLE);
+                loginButton.getAnimation().setAnimationListener(new Animation.AnimationListener() {
+                    @Override
+                    public void onAnimationStart(Animation animation) {
+
+                    }
+
+                    @Override
+                    public void onAnimationEnd(Animation animation) {
+
+                    }
+
+                    @Override
+                    public void onAnimationRepeat(Animation animation) {
+
+                    }
+                });
+
+                RegisterButton.setAnimation(fromRight);
+                RegisterButton.setVisibility(View.VISIBLE);
+                RegisterButton.getAnimation().setAnimationListener(new Animation.AnimationListener() {
+                    @Override
+                    public void onAnimationStart(Animation animation) {
+
+
+                    }
+
+                    @Override
+                    public void onAnimationEnd(Animation animation) {
+
+
+                    }
+
+                    @Override
+                    public void onAnimationRepeat(Animation animation) {
+
+                    }
+                });
+
+                GoogleSigninButton.setAnimation(fromBottom2);
+                GoogleSigninButton.setVisibility(View.VISIBLE);
+                GoogleSigninButton.getAnimation().setAnimationListener(new Animation.AnimationListener() {
+                    @Override
+                    public void onAnimationStart(Animation animation) {
+
+                    }
+
+                    @Override
+                    public void onAnimationEnd(Animation animation) {
+
+                        signoutButton.setAnimation(fromBottom3);
+                        signoutButton.setVisibility(View.VISIBLE);
+                        signoutButton.getAnimation().setAnimationListener(new Animation.AnimationListener() {
+                            @Override
+                            public void onAnimationStart(Animation animation) {
+
+                            }
+
+                            @Override
+                            public void onAnimationEnd(Animation animation) {
+
+                                Log.e(TAG,"HERE 3");
+                            }
+
+                            @Override
+                            public void onAnimationRepeat(Animation animation) {
+
+                            }
+                        });
+
+
+
+                    }
+
+                    @Override
+                    public void onAnimationRepeat(Animation animation) {
+
+                    }
+                });
+
+
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+
+            }
+        });
+
+
 
         mAuth = FirebaseAuth.getInstance();
 
@@ -77,7 +207,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.login:
                 Intent loginIntent = new Intent(MainActivity.this,LoginActivity.class);
                 startActivity(loginIntent);
-
                 break;
 
             case R.id.register:
