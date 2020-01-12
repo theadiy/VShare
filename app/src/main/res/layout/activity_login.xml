@@ -63,6 +63,7 @@
             android:inputType="textEmailAddress"
             android:background="@drawable/container"
 
+
             />
 
         <EditText

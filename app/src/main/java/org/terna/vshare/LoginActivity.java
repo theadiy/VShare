@@ -14,7 +14,6 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.VideoView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -199,7 +198,7 @@ public class LoginActivity extends AppCompatActivity {
                                 myEdit.putString("uid",user.getUid());
                                 myEdit.apply();
 
-                                Intent intent = new Intent(LoginActivity.this,Main2Activity.class);
+                                Intent intent = new Intent(LoginActivity.this, HomeFeedActivity.class);
                                 startActivity(intent);
                                 //updateUI(user);
                             } else {

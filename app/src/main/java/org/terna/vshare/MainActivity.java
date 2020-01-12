@@ -275,7 +275,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             myEdit.putString("uid",user.getUid());
                             myEdit.apply();
 
-                            Intent intent = new Intent(MainActivity.this,Main2Activity.class);
+                            Intent intent = new Intent(MainActivity.this, HomeFeedActivity.class);
                             startActivity(intent);
 
 
@@ -304,6 +304,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             Toast.makeText(MainActivity.this,"Already signed-in as "+sharedPreferences.getString("email",""),Toast.LENGTH_LONG).show();
             //updateUI(currentUser);
             //intent to home screen
+            Intent i = new Intent(MainActivity.this,HomeFeedActivity.class);
+            startActivity(i);
         }
 
     }

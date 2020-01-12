@@ -16,7 +16,6 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
@@ -240,7 +239,7 @@ public class RegisterActivity extends AppCompatActivity {
                                             myEdit.putString("uid",user.getUid());
                                             myEdit.apply();
 
-                                            Intent intent = new Intent(RegisterActivity.this,Main2Activity.class);
+                                            Intent intent = new Intent(RegisterActivity.this, HomeFeedActivity.class);
                                             startActivity(intent);
 
                                         } else {
@@ -259,7 +258,7 @@ public class RegisterActivity extends AppCompatActivity {
                         Toast.makeText(RegisterActivity.this," Password did not match ! ",Toast.LENGTH_SHORT).show();
                     }
 
-                    //Intent HomeIntent = new Intent(RegisterActivity.this,Main2Activity.class);
+                    //Intent HomeIntent = new Intent(RegisterActivity.this,HomeFeedActivity.class);
                     //startActivity(HomeIntent);
 
                 }
