@@ -21,4 +21,10 @@
     <item name="signOutButton" type="id" />
     <item name="regPassword" type="id" />
     <item name="regPassword2" type="id" />
+    <item name="profile_relativeLayout" type="id" />
+    <item name="profile_imageView" type="id" />
+    <item name="profile_name_textView" type="id" />
+    <item name="profile_email_textView" type="id" />
+    <item name="profile_username_textView" type="id" />
+    <item name="profile_uploads_textView" type="id" />
 </resources>
