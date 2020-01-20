@@ -10,16 +10,18 @@
         android:layout_margin="20dp"
         android:background="@drawable/container"
         android:backgroundTint="@color/colorPrimary"
-        android:id="@id/profile_relativeLayout"
-        >
-        <ImageView
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:src="@mipmap/user_4"
+        android:id="@id/profile_relativeLayout">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/profile_imageView"
+            android:layout_width="96dp"
+            android:layout_height="96dp"
+            android:src="@drawable/skul"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="30dp"
             android:layout_marginBottom="10dp"
-            android:id="@id/profile_imageView"/>
+            app:civ_border_width="2dp"
+            app:civ_border_color="#FF000000"/>
 
         <TextView
             android:layout_width="wrap_content"
