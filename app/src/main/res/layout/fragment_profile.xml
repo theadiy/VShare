@@ -78,7 +78,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:text="Upload a video"
-        android:id="@id/profile_uploads_textView"
+        android:id="@id/profile_uploads_Button"
         />
 
 </LinearLayout>

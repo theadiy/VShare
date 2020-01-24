@@ -27,4 +27,5 @@
     <item name="profile_email_textView" type="id" />
     <item name="profile_username_textView" type="id" />
     <item name="profile_uploads_textView" type="id" />
+    <item name="profile_uploads_Button" type="id" />
 </resources>
