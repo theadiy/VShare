@@ -13,12 +13,14 @@ import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 import com.google.firebase.auth.FirebaseUser;
 
 public class RegisterActivity extends AppCompatActivity {
@@ -28,6 +30,7 @@ public class RegisterActivity extends AppCompatActivity {
     EditText username, regemail, regpassword, regpassword2;
     String uname, email, pass, pass2;
     LinearLayout registerLinearLayout;
+    ProgressBar progressBar;
 
     private FirebaseAuth mAuth;
 
@@ -35,6 +38,7 @@ public class RegisterActivity extends AppCompatActivity {
     SharedPreferences.Editor myEdit;
 
     Animation fromLeft, fromRight, fromBottom, fromBottom2, fromTop, rotate, zoomIn;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +51,7 @@ public class RegisterActivity extends AppCompatActivity {
         regpassword2 = findViewById(R.id.regPassword2);
         registerButton = findViewById(R.id.registerButton);
         registerLinearLayout = findViewById(R.id.registerLinearLayout);
+        progressBar = findViewById(R.id.progress_circular);
 
 
         username.setVisibility(View.INVISIBLE);
@@ -218,6 +223,8 @@ public class RegisterActivity extends AppCompatActivity {
                     //check password match
                     if(pass.equals(pass2)){
 
+                        progressBar.setVisibility(View.VISIBLE);
+
 
 
                         //push into firebase
@@ -226,6 +233,7 @@ public class RegisterActivity extends AppCompatActivity {
                                 .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                                     @Override
                                     public void onComplete(@NonNull Task<AuthResult> task) {
+                                        progressBar.setVisibility(View.GONE);
                                         if (task.isSuccessful()) {
                                             // Sign in success, update UI with the signed-in user's information
                                             Log.d(TAG, "createUserWithEmail:success");
@@ -243,11 +251,16 @@ public class RegisterActivity extends AppCompatActivity {
                                             startActivity(intent);
 
                                         } else {
-                                            // If sign in fails, display a message to the user.
-                                            Log.w(TAG, "createUserWithEmail:failure", task.getException());
-                                            Toast.makeText(RegisterActivity.this, "Authentication failed."+task.getException().getMessage(),
-                                                    Toast.LENGTH_SHORT).show();
-                                            //updateUI(null);
+                                                // If user or his email is already registered.
+                                            if(task.getException() instanceof FirebaseAuthUserCollisionException) {
+                                                Toast.makeText(getApplicationContext(), "You are already registered", Toast.LENGTH_SHORT).show();
+                                            }else {
+                                                // If sign in fails, display a message to the user.
+                                                Log.w(TAG, "createUserWithEmail:failure", task.getException());
+                                                Toast.makeText(RegisterActivity.this, "Authentication failed." + task.getException().getMessage(),
+                                                        Toast.LENGTH_SHORT).show();
+                                                //updateUI(null);
+                                            }
                                         }
 
                                     }

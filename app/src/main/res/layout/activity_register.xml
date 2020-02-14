@@ -79,17 +79,17 @@
             />
 
         <EditText
+            android:id="@id/regPassword"
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:layout_marginTop="30dp"
+            android:background="@drawable/container"
             android:elevation="2dp"
             android:hint="Password"
-            android:paddingLeft="10dp"
-            android:textColorHint="@color/colorLightPrimary"
-            android:background="@drawable/container"
-            android:id="@id/regPassword"
             android:inputType="textPassword"
-            />
+            android:paddingLeft="10dp"
+            android:textColorHint="@color/colorLightPrimary" />
+
         <EditText
             android:layout_width="match_parent"
             android:layout_height="40dp"
@@ -115,9 +115,19 @@
             android:elevation="2dp"
             android:background="@drawable/container"
             android:id="@id/registerButton"/>
+
+
+
     </LinearLayout>
 
 
+    <ProgressBar
+        android:id="@+id/progress_circular"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:layout_gravity="center" />
 
 
 </RelativeLayout>
