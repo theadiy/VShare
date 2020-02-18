@@ -22,6 +22,10 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
+import java.util.HashMap;
 
 public class RegisterActivity extends AppCompatActivity {
 
@@ -242,6 +246,33 @@ public class RegisterActivity extends AppCompatActivity {
 
                                             FirebaseUser user = mAuth.getCurrentUser();
                                             //updateUI(user);
+
+                                            //Get user email and uid from auth
+
+                                            String email = user.getEmail();
+                                            String uid = user.getUid();
+
+                                            //When user is registered store user info in Fb realtime Db too
+
+                                            HashMap<Object, String> hashMap = new HashMap<>();
+
+                                            // put info in hashmap
+
+                                            hashMap.put("email",email);
+                                            hashMap.put("uid",uid);
+                                            hashMap.put("name",uname);
+                                            hashMap.put("image","");
+                                            hashMap.put("bio","");
+
+                                            //Fb Db instance
+                                            FirebaseDatabase database = FirebaseDatabase.getInstance();
+
+                                            //path to store data named "Users"
+                                            DatabaseReference reference = database.getReference("Users");
+                                            //put data within hashmap in database
+
+                                            reference.child(uid).setValue(hashMap);
+
 
                                             myEdit.putString("email",user.getEmail());
                                             myEdit.putString("uid",user.getUid());
