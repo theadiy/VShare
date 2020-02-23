@@ -29,6 +29,10 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
+import java.util.HashMap;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -257,7 +261,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     }
     private void firebaseAuthWithGoogle(final GoogleSignInAccount acct) {
-        Log.e(TAG, "firebaseAuthWithGoogle:" + acct.getId());
+
 
         AuthCredential credential = GoogleAuthProvider.getCredential(acct.getIdToken(), null);
         mAuth.signInWithCredential(credential)
@@ -266,10 +270,31 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
-                            Log.e(TAG, "signInWithCredential:success");
-                            Toast.makeText(MainActivity.this,"Successfully signed-in as "+acct.getDisplayName(),Toast.LENGTH_LONG).show();
 
                             FirebaseUser user = mAuth.getCurrentUser();
+
+                            if(task.getResult().getAdditionalUserInfo().isNewUser()){
+                                //Get user email and uid from auth
+
+                                String email = user.getEmail();
+                                String uid = user.getUid();
+
+                                //When user is registered store user info in Fb realtime Db too
+
+                                HashMap<Object, String> hashMap = new HashMap<>();
+                                // put info in hashmap
+                                hashMap.put("email",email);
+                                hashMap.put("uid",uid);
+                                hashMap.put("name","");
+                                hashMap.put("image","");
+                                hashMap.put("bio","");
+                                //Fb Db instance
+                                FirebaseDatabase database = FirebaseDatabase.getInstance();
+                                //path to store data named "Users"
+                                DatabaseReference reference = database.getReference("Users");
+                                //put data within hashmap in database
+                                reference.child(uid).setValue(hashMap);
+                            }
 
                             myEdit.putString("email",user.getEmail());
                             myEdit.putString("uid",user.getUid());
@@ -287,7 +312,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                         }
 
-                        // ...
                     }
                 });
     }

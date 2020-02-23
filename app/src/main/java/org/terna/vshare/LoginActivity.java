@@ -198,27 +198,6 @@ public class LoginActivity extends AppCompatActivity {
 
                                 FirebaseUser user = mAuth.getCurrentUser();
 
-                                //Get user email and uid from auth
-
-                                String email = user.getEmail();
-                                String uid = user.getUid();
-
-                                //When user is registered store user info in Fb realtime Db too
-
-                                HashMap<Object, String> hashMap = new HashMap<>();
-                                // put info in hashmap
-                                hashMap.put("email",email);
-                                hashMap.put("uid",uid);
-                                hashMap.put("name","");
-                                hashMap.put("image","");
-                                hashMap.put("bio","");
-                                //Fb Db instance
-                                FirebaseDatabase database = FirebaseDatabase.getInstance();
-                                //path to store data named "Users"
-                                DatabaseReference reference = database.getReference("Users");
-                                //put data within hashmap in database
-                                reference.child(uid).setValue(hashMap);
-
                                 myEdit.putString("email",user.getEmail());
                                 myEdit.putString("uid",user.getUid());
                                 myEdit.apply();
