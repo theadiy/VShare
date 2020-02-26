@@ -25,6 +25,14 @@ import androidx.navigation.ui.NavigationUI;
 
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
+import com.squareup.picasso.Picasso;
 
 import androidx.drawerlayout.widget.DrawerLayout;
 
@@ -32,6 +40,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.view.Menu;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class HomeFeedActivity extends AppCompatActivity {
@@ -39,11 +49,17 @@ public class HomeFeedActivity extends AppCompatActivity {
     private AppBarConfiguration mAppBarConfiguration;
     public static String TAG = "HomeFeedActivity";
 
-    private FirebaseAuth mAuth;
+    FirebaseAuth firebaseAuth;
     GoogleSignInClient mGoogleSignInClient;
+    FirebaseUser user;
+    FirebaseDatabase firebaseDatabase;
+    DatabaseReference databaseReference;
 
     SharedPreferences sharedPreferences ;
     SharedPreferences.Editor myEdit;
+
+    ImageView profile_imageView;
+    TextView profile_name_textView, profile_email_textView ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,7 +68,13 @@ public class HomeFeedActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        mAuth = FirebaseAuth.getInstance();
+        firebaseAuth = FirebaseAuth.getInstance();
+        user = firebaseAuth.getCurrentUser();
+        String uid = user.getUid();
+        firebaseDatabase = FirebaseDatabase.getInstance();
+        databaseReference = firebaseDatabase.getReference("Users");
+
+        String Name = user.getDisplayName();
 
         sharedPreferences = getSharedPreferences("user", MODE_PRIVATE);
         myEdit = sharedPreferences.edit();
@@ -64,6 +86,9 @@ public class HomeFeedActivity extends AppCompatActivity {
                 .build();
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
 
+
+
+
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -72,6 +97,8 @@ public class HomeFeedActivity extends AppCompatActivity {
                         .setAction("Action", null).show();
             }
         });
+
+
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
         // Passing each menu ID as a set of Ids because each
@@ -83,6 +110,8 @@ public class HomeFeedActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
+
+        updateNavReader();
     }
 
     @Override
@@ -126,10 +155,51 @@ public class HomeFeedActivity extends AppCompatActivity {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 Toast.makeText(HomeFeedActivity.this,"Signed out",Toast.LENGTH_SHORT).show();
-                Log.e(TAG,"---------------"+mAuth.getCurrentUser().getDisplayName());
+                Log.e(TAG,"---------------"+firebaseAuth.getCurrentUser().getDisplayName());
                 Intent i = new Intent(HomeFeedActivity.this,MainActivity.class);
                 startActivity(i);
                 finish();
+            }
+        });
+    }
+
+    public void updateNavReader(){
+
+        NavigationView navigationView = findViewById(R.id.nav_view);
+        View headerView = navigationView.getHeaderView(0);
+        profile_name_textView = headerView.findViewById(R.id.profile_name_textView);
+        //profile_email_textView = headerView.findViewById(R.id.profile_email_textView);
+        profile_imageView = headerView.findViewById(R.id.profile_imageView);
+
+        Query query = databaseReference.orderByChild("email").equalTo(user.getEmail());
+        query.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                //check until required data is received
+                for (DataSnapshot ds : dataSnapshot.getChildren()){
+                    //get data
+                    String name = ""+ds.child("name").getValue();
+                    //String email = ""+ds.child("email").getValue();
+                    String image = ""+ds.child("image").getValue();
+
+                    //set data
+                    //profile_email_textView.setText(email);
+                    profile_name_textView.setText(name);
+
+                    try{
+                        Picasso.get().load(image).into(profile_imageView);
+                    }
+                    catch (Exception e){
+                        Picasso.get().load(R.drawable.ic_profile_photo).into(profile_imageView);
+                    }
+
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
             }
         });
     }

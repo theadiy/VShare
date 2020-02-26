@@ -14,24 +14,27 @@
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/profile_imageView"
+        android:src="@drawable/ic_profile_photo"
         android:layout_width="96dp"
         android:layout_height="96dp"
         android:paddingTop="16dp"
-        android:src="@drawable/skul"
         app:civ_border_width="2dp"
         app:civ_border_color="#FF000000"/>
 
     <TextView
+        android:id="@id/profile_name_textView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingTop="@dimen/nav_header_vertical_spacing"
-        android:text="@string/nav_header_title"
+
         android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@id/profile_email_textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/nav_header_subtitle" />
+        android:paddingTop="@dimen/nav_header_vertical_spacing"
+
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
 
 </LinearLayout>
