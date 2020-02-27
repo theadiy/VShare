@@ -48,6 +48,7 @@ import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
 
 import org.terna.vshare.R;
+import org.terna.vshare.UploadVideoActivity;
 
 import java.io.File;
 import java.security.Key;
@@ -86,6 +87,7 @@ public class ProfileFragment extends Fragment {
     private static final int STORAGE_REQUEST_CODE = 200;
     private static final int IMAGE_PICK_GALLERY_CODE = 300;
     private static final int IMAGE_PICK_CAMERA_CODE = 400;
+    private static final int UPLOAD_VIDEO = 500;
     //arrays of permissions to be requested
     String cameraPermission[];
     String storagePermission[];
@@ -174,24 +176,23 @@ public class ProfileFragment extends Fragment {
                 ViewModelProviders.of(this).get(ProfileViewModel.class);
         final View root = inflater.inflate(R.layout.fragment_profile, container, false);
         //final TextView textView = root.findViewById(R.id.text_gallery);
-        profileVideoUploadButton = root.findViewById(R.id.profile_uploads_Button);
+        profileVideoUploadButton = view.findViewById(R.id.profile_uploads_Button);
+
+        profileVideoUploadButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent uploadIntent = new Intent(getContext(), UploadVideoActivity.class);
+                startActivity(uploadIntent);
+
+            }
+        });
+
         profileViewModel.getText().observe(this, new Observer<String>() {
             @Override
             public void onChanged(@Nullable String s) {
                 //textView.setText(s);
 
-                profileVideoUploadButton.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-
-                        fileIntent = new Intent(Intent.ACTION_GET_CONTENT);
-                        fileIntent.setType("*/*");
-                        startActivityForResult(fileIntent,10);
-                        Toast.makeText(root.getContext(),"Uploading video",Toast.LENGTH_SHORT).show();
-
-
-                    }
-                });
 
 
 
@@ -418,34 +419,37 @@ public class ProfileFragment extends Fragment {
 
 
         // This method will be called after picking image from Camera or Gallery
+        // Upload button CODE
 
-        if (resultCode == RESULT_OK){
 
-            if(requestCode == IMAGE_PICK_GALLERY_CODE){
+
+        switch (requestCode){
+
+
+            case IMAGE_PICK_GALLERY_CODE:
                 //get uri of image picked from gallery
                 image_uri = data.getData();
 
                 uploadProfileCoverPhoto(image_uri);
+                break;
 
-            }
-            if(requestCode == IMAGE_PICK_CAMERA_CODE){
+            case IMAGE_PICK_CAMERA_CODE:
                 //get uri of image picked from camera
 
                 uploadProfileCoverPhoto(image_uri);
-            }
-        }
+                break;
 
+            case UPLOAD_VIDEO:
+                Log.e("ProfileFragment","UPLOADBUTTON CLICKED.....................................");
+                Toast.makeText(getContext(),"UPLOAD Video button", Toast.LENGTH_SHORT).show();
 
-        // Upload button CODE
+                Uri fileUri = data.getData();
 
-        Log.e("ProfileFragment","path : "+resultCode);
+                Intent uploadIntent = new Intent(getContext(), UploadVideoActivity.class);
+                uploadIntent.putExtra("videofileUri", fileUri.toString());
+                startActivity(uploadIntent);
 
-        switch (requestCode){
-            case 10:
-                if(resultCode == -1){
-
-
-                    Log.e("ProfileFragment","path : "+data.getData().getPath());
+/*                    Log.e("ProfileFragment","path : "+data.getData().getPath());
                     Toast.makeText(this.getContext(),"SELECTED FILE"+data.getData(),Toast.LENGTH_SHORT).show();
 
                     Uri file = data.getData();
@@ -465,8 +469,8 @@ public class ProfileFragment extends Fragment {
 
 
                         }
-                    });
-                }
+                    });*/
+
         }
 
     }

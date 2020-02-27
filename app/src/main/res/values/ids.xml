@@ -28,4 +28,8 @@
     <item name="profile_username_textView" type="id" />
     <item name="profile_uploads_textView" type="id" />
     <item name="profile_uploads_Button" type="id" />
+    <item name="uploadButton" type="id" />
+    <item name="uploadProgressBar" type="id" />
+    <item name="uploadPrecentTextView" type="id" />
+    <item name="uploadPrcntTextView" type="id" />
 </resources>
