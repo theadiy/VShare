@@ -32,4 +32,8 @@
     <item name="uploadProgressBar" type="id" />
     <item name="uploadPrecentTextView" type="id" />
     <item name="uploadPrcntTextView" type="id" />
+    <item name="uploadVideoNameEditText" type="id" />
+    <item name="uploadLinearLayout" type="id" />
+    <item name="uploadVideoDescription" type="id" />
+    <item name="uploadRelativeLayout" type="id" />
 </resources>
