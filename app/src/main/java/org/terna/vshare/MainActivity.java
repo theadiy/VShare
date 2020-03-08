@@ -32,6 +32,8 @@ import com.google.firebase.auth.GoogleAuthProvider;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
@@ -41,6 +43,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private FirebaseAuth mAuth;
     GoogleSignInClient mGoogleSignInClient;
     RelativeLayout loginOptionsLayout;
+    String createdOnDate;
 
     private AlertDialog.Builder alert;
     private AlertDialog message;
@@ -271,6 +274,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
 
+                            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy");
+                            createdOnDate = simpleDateFormat.format(new Date());
+
                             FirebaseUser user = mAuth.getCurrentUser();
 
                             if(task.getResult().getAdditionalUserInfo().isNewUser()){
@@ -283,11 +289,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                                 HashMap<Object, String> hashMap = new HashMap<>();
                                 // put info in hashmap
-                                hashMap.put("email",email);
                                 hashMap.put("uid",uid);
+                                hashMap.put("email",email);
                                 hashMap.put("name","");
                                 hashMap.put("image","");
                                 hashMap.put("bio","");
+                                hashMap.put("createdOn",createdOnDate);
                                 //Fb Db instance
                                 FirebaseDatabase database = FirebaseDatabase.getInstance();
                                 //path to store data named "Users"

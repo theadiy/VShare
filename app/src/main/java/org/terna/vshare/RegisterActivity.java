@@ -25,13 +25,16 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.text.SimpleDateFormat;
 import java.util.HashMap;
+import java.util.Date;
 
 public class RegisterActivity extends AppCompatActivity {
 
     public static String TAG = "RegisterActivity";
     Button registerButton;
-    EditText username, regemail, regpassword, regpassword2;
+    EditText username, regemail, regpassword, regpassword2 ;
+    String createdOnDate;
     String uname, email, pass, pass2;
     LinearLayout registerLinearLayout;
     ProgressBar progressBar;
@@ -194,6 +197,7 @@ public class RegisterActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
+
                 //take user input into string
                 if(username.getText().toString().equals("")){
 
@@ -243,8 +247,11 @@ public class RegisterActivity extends AppCompatActivity {
                                             Log.d(TAG, "createUserWithEmail:success");
                                             Toast.makeText(RegisterActivity.this, "Successfully registered.",
                                                     Toast.LENGTH_SHORT).show();
+                                            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy");
+                                            createdOnDate = simpleDateFormat.format(new Date());
 
                                             FirebaseUser user = mAuth.getCurrentUser();
+
                                             //updateUI(user);
 
                                             //Get user email and uid from auth
@@ -258,11 +265,12 @@ public class RegisterActivity extends AppCompatActivity {
 
                                             // put info in hashmap
 
-                                            hashMap.put("email",email);
                                             hashMap.put("uid",uid);
+                                            hashMap.put("email",email);
                                             hashMap.put("name",uname);
                                             hashMap.put("image","");
                                             hashMap.put("bio","");
+                                            hashMap.put("createdOn",createdOnDate);
 
                                             //Fb Db instance
                                             FirebaseDatabase database = FirebaseDatabase.getInstance();
