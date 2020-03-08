@@ -1,19 +1,41 @@
 package org.terna.vshare.ui.home;
 
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.ViewModel;
 
-public class HomeViewModel extends ViewModel {
+import android.graphics.Bitmap;
+import android.widget.ImageView;
 
-    private MutableLiveData<String> mText;
+public class HomeViewModel {
 
-    public HomeViewModel() {
-        mText = new MutableLiveData<>();
-        mText.setValue("This is home fragment");
+    String likeCount;
+    String owner;
+    String videoDescription;
+    String videoId;
+    String videoName;
+    String videoTimeDuration;
+    String videoUploadDate;
+    Bitmap videoThumbnailImageView;
+
+    public HomeViewModel(String likeCount,
+                         String owner,
+                         String videoDescription,
+                         String videoId,
+                         String videoName,
+                         String videoTimeDuration,
+                         String videoUploadDate,
+                         Bitmap videoThumbnailImageView){
+
+        this.likeCount = likeCount;
+        this.owner = owner;
+        this.videoDescription = videoDescription;
+        this.videoId = videoId;
+        this.videoName = videoName;
+        this.videoTimeDuration = videoTimeDuration;
+        this.videoUploadDate = videoUploadDate;
+        this.videoThumbnailImageView = videoThumbnailImageView;
+
     }
 
-    public LiveData<String> getText() {
-        return mText;
+    public HomeViewModel(){
+
     }
 }

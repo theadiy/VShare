@@ -96,8 +96,8 @@ public class UploadVideoActivity extends AppCompatActivity {
         final Uri fileUri = Uri.parse(dataFromPreviousActivity.getExtras().getString("videofileUri"));*/
 
 
-        Intent fileIntent = new Intent(Intent.ACTION_GET_CONTENT);
-        fileIntent.setType("*/*");
+        Intent fileIntent = new Intent(Intent.ACTION_PICK, MediaStore.Video.Media.EXTERNAL_CONTENT_URI);
+        fileIntent.setType("video/*");
         startActivityForResult(fileIntent,UPLOAD_VIDEO);
         Toast.makeText(getBaseContext(),"Uploading video...",Toast.LENGTH_SHORT).show();
 
@@ -125,7 +125,9 @@ public class UploadVideoActivity extends AppCompatActivity {
                         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy-hh-mm-ss");
                         String format = simpleDateFormat.format(new Date());
                         videoId = format+owner;
-                        StorageReference videoRef = storageRef.child("videos/"+videoId);
+                        StorageReference videoRef = storageRef.child("videos/"+videoId+".mp4");
+                        Log.e(TAG,"storare ref---"+videoRef.getPath());
+
                         UploadTask uploadTask = videoRef.putFile(fileUri);
 
                         uploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
@@ -154,6 +156,11 @@ public class UploadVideoActivity extends AppCompatActivity {
                             public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
 
                                 uploadVideoButton.setVisibility(View.INVISIBLE);
+                            }
+                        }).addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Log.e(TAG,"Demn something went wrong ------");
                             }
                         });
 
@@ -187,7 +194,7 @@ public class UploadVideoActivity extends AppCompatActivity {
                         Size size = new Size(512,384);
 
                         Bitmap bitmap = null;
-                        bitmap = ThumbnailUtils.createVideoThumbnail(VideoFile.getAbsolutePath(), MediaStore.Video.Thumbnails.MICRO_KIND);
+                        bitmap = ThumbnailUtils.createVideoThumbnail(VideoFile.getAbsolutePath(), MediaStore.Video.Thumbnails.FULL_SCREEN_KIND);
 
 
                         //pushing thumbnail to firebase
@@ -195,7 +202,7 @@ public class UploadVideoActivity extends AppCompatActivity {
                         FirebaseStorage firebaseStorage = FirebaseStorage.getInstance();
                         StorageReference storageReference = firebaseStorage.getReference("VideosThumbnail");
 
-                        UploadTask uploadTask1 =storageReference.child(videoId).putFile(getImageUri(getApplicationContext(),bitmap));
+                        UploadTask uploadTask1 =storageReference.child(videoId+".jpg").putFile(getImageUri(getApplicationContext(),bitmap));
 
                         uploadTask1.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                             @Override
@@ -334,10 +341,15 @@ public class UploadVideoActivity extends AppCompatActivity {
             else if (isDownloadsDocument(uri)) {
 
                 final String id = DocumentsContract.getDocumentId(uri);
+                Log.e(TAG,"getDoc ID"+id);
                 final Uri contentUri = ContentUris.withAppendedId(
-                        Uri.parse("content://downloads/public_downloads"), Long.valueOf(id));
+                        Uri.parse("content://downloads/public_downloads/"), Long.valueOf(id));
 
-                return getDataColumn(context, contentUri, null, null);
+                Log.e(TAG,"contentUri ;;;;;;;;;;;;;;-----------------"+contentUri.toString());
+                Log.e(TAG,"contentUri -----------------"+contentUri.getLastPathSegment());
+                Log.e(TAG,"conentUri -----------------"+contentUri.getPath());
+                Log.e(TAG,"contentUri ;;;;;;;;;;;;;;-----------------"+contentUri.getAuthority());
+                return getDataColumn(context, uri, null, null);
             }
             // MediaProvider
             else if (isMediaDocument(uri)) {
@@ -359,11 +371,22 @@ public class UploadVideoActivity extends AppCompatActivity {
                         split[1]
                 };
 
+                Log.e(TAG,"contentUri //////-----------------"+contentUri.toString());
+                Log.e(TAG,"contentUri -----------------"+contentUri.getLastPathSegment());
+                Log.e(TAG,"conetntUri -----------------"+contentUri.getPath());
+                Log.e(TAG,"contentUri //////-----------------"+contentUri.getAuthority());
                 return getDataColumn(context, contentUri, selection, selectionArgs);
             }
         }
         // MediaStore (and general)
         else if ("content".equalsIgnoreCase(uri.getScheme())) {
+
+
+            Log.e(TAG,"contentUri $$$$$$ scheme----------------"+uri.getScheme());
+            Log.e(TAG,"contentUri $$$$$$----------------"+uri.toString());
+            Log.e(TAG,"contentUri -----------------"+uri.getLastPathSegment());
+            Log.e(TAG,"conentUri -----------------"+uri.getPath());
+            Log.e(TAG,"contentUri $$$$$$-----------------"+uri.getAuthority());
             return getDataColumn(context, uri, null, null);
         }
         // File
@@ -393,11 +416,14 @@ public class UploadVideoActivity extends AppCompatActivity {
                 column
         };
 
+
         try {
             cursor = context.getContentResolver().query(uri, projection, selection, selectionArgs,
                     null);
             if (cursor != null && cursor.moveToFirst()) {
                 final int column_index = cursor.getColumnIndexOrThrow(column);
+                Log.e(TAG,"CURSOR ------------------------------------"+column_index);
+                Log.e(TAG,"CURSOR ------------------------------------"+cursor.getString(column_index));
                 return cursor.getString(column_index);
             }
         } finally {

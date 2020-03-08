@@ -36,4 +36,11 @@
     <item name="uploadLinearLayout" type="id" />
     <item name="uploadVideoDescription" type="id" />
     <item name="uploadRelativeLayout" type="id" />
+    <item name="postCellThumbnailImageView" type="id" />
+    <item name="postCellDurationTextView" type="id" />
+    <item name="postCellVideoTitleTextView" type="id" />
+    <item name="feedRecyclerView" type="id" />
+    <item name="postCellVideouploadDateTextView" type="id" />
+    <item name="postCellLikeTextView" type="id" />
+    <item name="postCellCommentTextView" type="id" />
 </resources>
