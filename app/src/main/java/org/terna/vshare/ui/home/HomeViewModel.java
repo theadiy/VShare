@@ -4,7 +4,9 @@ package org.terna.vshare.ui.home;
 import android.graphics.Bitmap;
 import android.widget.ImageView;
 
-public class HomeViewModel {
+import java.io.Serializable;
+
+public class HomeViewModel implements Serializable {
 
     String likeCount;
     String owner;
@@ -38,4 +40,5 @@ public class HomeViewModel {
     public HomeViewModel(){
 
     }
+
 }

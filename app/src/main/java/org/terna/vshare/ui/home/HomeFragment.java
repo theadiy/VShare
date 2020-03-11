@@ -7,9 +7,12 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.annotation.NonNull;
@@ -186,7 +189,7 @@ public class HomeFragment extends Fragment {
         }
 
         @Override
-        public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
+        public void onBindViewHolder(@NonNull final RecyclerView.ViewHolder holder, int position) {
 
             final HomeViewModel feed = homeViewModels.get(position);
             ((FeedItem)holder).postCellVideoTitleTextView.setText(feed.videoName);
@@ -195,6 +198,16 @@ public class HomeFragment extends Fragment {
             ((FeedItem)holder).postCellLikeTextView.setText("Likes "+feed.likeCount);
             ((FeedItem)holder).postCellCommentTextView.setText("Comments "+feed.likeCount);
             ((FeedItem)holder).postCellThumbnailImageView.setImageBitmap(feed.videoThumbnailImageView);
+
+            ((FeedItem)holder).itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    //Toast.makeText(getContext()," you clicked "+((FeedItem)holder).postCellVideoTitleTextView.getText(),Toast.LENGTH_LONG).show();
+
+
+                }
+            });
 
         }
 

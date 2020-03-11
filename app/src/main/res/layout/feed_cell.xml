@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/container"
+    android:layout_margin="4dp"
+    android:elevation="10dp">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:paddingTop="1dp"
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            android:id="@id/postCellThumbnailImageView"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="02:20"
+            android:layout_alignBottom="@id/postCellThumbnailImageView"
+            android:layout_alignEnd="@id/postCellThumbnailImageView"
+            android:textSize="16dp"
+            android:id="@id/postCellDurationTextView"
+            android:paddingRight="4dp"
+            android:paddingLeft="4dp"
+            android:background="#88EE1818"
+            />
+    </RelativeLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="20dp"
+        android:text="Video Title"
+        android:padding="10dp"
+        android:id="@id/postCellVideoTitleTextView"
+        android:textColor="@color/ColorBlack"
+        />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Date"
+        android:paddingLeft="10dp"
+        android:id="@id/postCellVideouploadDateTextView"
+        android:textColor="@color/ColorBlack"
+        />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="4dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="Likes 10"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:id="@id/postCellLikeTextView"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="Comments 3"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:id="@id/postCellCommentTextView"/>
+    </LinearLayout>
+
+</LinearLayout>
