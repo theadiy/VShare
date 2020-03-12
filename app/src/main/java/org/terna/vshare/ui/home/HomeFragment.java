@@ -33,6 +33,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -40,6 +41,7 @@ import com.google.firebase.storage.StorageReference;
 import org.terna.vshare.R;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 
 public class HomeFragment extends Fragment {
@@ -78,7 +80,9 @@ public class HomeFragment extends Fragment {
         //retrieving feeds
         postStorage = FirebaseStorage.getInstance();
         postDatabase = FirebaseDatabase.getInstance().getReference();
+
         feedsdatabaseReference = FirebaseDatabase.getInstance().getReference("Videos");
+
         feedsstorageReference = FirebaseStorage.getInstance().getReference("VideosThumbnail");
         feedsdatabaseReference.addValueEventListener(new ValueEventListener() {
             @Override
@@ -100,9 +104,7 @@ public class HomeFragment extends Fragment {
                     newFeed.videoName = feedHashmasp.get("videoName").toString();
                     newFeed.videoId = feedHashmasp.get("videoId").toString();
                     Log.e(TAG,"VIDEO ID -----------"+newFeed.videoId);
-                    Log.e(TAG,"VIDEO ID -----------"+feedsstorageReference.getPath());
-                    Log.e(TAG,"VIDEO ID -----------"+feedsstorageReference.child(newFeed.videoId+".jpg").getName());
-                    Log.e(TAG,"VIDEO ID -----------"+"08-03-2020-12-16-212rg3z0JGyuVaPgjFFC5Y2W3WaTb2.jpg");
+
 
                     feedsstorageReference.child(feedHashmasp.get("videoId").toString()+".jpg").getBytes(Long.MAX_VALUE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
                         @Override
@@ -110,12 +112,15 @@ public class HomeFragment extends Fragment {
 
                             thumbnail= BitmapFactory.decodeByteArray(bytes,0,bytes.length);
 
-                            Log.e(TAG,"Bitmap is not null -----"+thumbnail.getByteCount());
+
                             //Log.e(TAG,"Bitmap is not null -----"+newFeed.videoThumbnailImageView.getByteCount());
                             newFeed.videoThumbnailImageView = thumbnail;
-                            Log.e(TAG,"THUmial outside task"+newFeed.videoThumbnailImageView.getByteCount());
+
                             if(newFeed != null && newFeed.videoThumbnailImageView != null){
                                 homeViewModels.add(newFeed);
+
+                                //sorting
+                                Collections.reverse(homeViewModels);
                                 myAdapter.notifyDataSetChanged();
                                 if(
                                         myAdapter.getItemCount() > 0) {
