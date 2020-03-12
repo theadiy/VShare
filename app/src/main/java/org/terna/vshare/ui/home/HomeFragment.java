@@ -121,6 +121,7 @@ public class HomeFragment extends Fragment {
 
                                 //sorting
                                 Collections.reverse(homeViewModels);
+
                                 myAdapter.notifyDataSetChanged();
                                 if(
                                         myAdapter.getItemCount() > 0) {
