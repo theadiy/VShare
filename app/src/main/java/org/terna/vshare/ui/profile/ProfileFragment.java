@@ -7,6 +7,8 @@ import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -19,6 +21,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -29,7 +32,12 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import com.github.ybq.android.spinkit.SpriteFactory;
+import com.github.ybq.android.spinkit.Style;
+import com.github.ybq.android.spinkit.sprite.Sprite;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -47,12 +55,15 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
 
+import org.terna.vshare.HomeViewModel;
 import org.terna.vshare.R;
 import org.terna.vshare.UploadVideoActivity;
 
 import java.io.File;
 import java.security.Key;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 
@@ -62,6 +73,7 @@ import static com.google.firebase.storage.FirebaseStorage.getInstance;
 
 public class ProfileFragment extends Fragment {
 
+    String TAG = "ProfileFragment";
     private ProfileViewModel profileViewModel;
     Button profileVideoUploadButton;
     Intent fileIntent;
@@ -96,6 +108,18 @@ public class ProfileFragment extends Fragment {
     Uri image_uri;
     String profilepicture;
 
+    //own feeds
+    private HomeViewModel homeViewModel;
+    RecyclerView feedRecyclerView;
+    FeedAdapter myAdapter;
+    ArrayList<HomeViewModel> homeViewModels = new ArrayList<>();
+    private DatabaseReference feedsdatabaseReference;
+    private StorageReference feedsstorageReference;
+    private DatabaseReference postDatabase;
+    private FirebaseStorage postStorage;
+    Bitmap thumbnail;
+    ProgressBar spinKitView;
+
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -125,6 +149,103 @@ public class ProfileFragment extends Fragment {
 
          //init progress dialog
          pd = new ProgressDialog(getActivity());
+
+
+        //recycler view
+        feedRecyclerView = view.findViewById(R.id.profileFeedRecyclerView);
+
+
+        feedRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        myAdapter = new FeedAdapter();
+        feedRecyclerView.setAdapter(myAdapter);
+
+        //Loading screen
+        spinKitView = view.findViewById(R.id.profileSpin_kit);
+        final Sprite sprite = SpriteFactory.create(Style.MULTIPLE_PULSE_RING);
+        //sprite.setAnimationDelay(50000);
+        sprite.setColor(android.graphics.Color.parseColor("#fa0842"));
+        spinKitView.setIndeterminateDrawable(sprite);
+
+        //retrieving feeds
+        postStorage = FirebaseStorage.getInstance();
+        postDatabase = FirebaseDatabase.getInstance().getReference();
+
+        feedsdatabaseReference = FirebaseDatabase.getInstance().getReference("Videos");
+
+
+
+        feedsstorageReference = FirebaseStorage.getInstance().getReference("VideosThumbnail");
+        Query ownFeedsquery = feedsdatabaseReference.orderByChild("owner").equalTo(user.getUid());
+        ownFeedsquery.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                for (DataSnapshot feedsSnapshot : dataSnapshot.getChildren()){
+
+                    final HashMap feedHashmasp = ((HashMap) feedsSnapshot.getValue());
+                    final HomeViewModel newFeed = new HomeViewModel();
+                    thumbnail = null;
+
+
+                    newFeed.videoName = feedHashmasp.get("videoName").toString();
+                    newFeed.videoDescription = feedHashmasp.get("videoDescription").toString();
+                    newFeed.videoUploadDate = feedHashmasp.get("videoUploadDate").toString();
+                    newFeed.videoTimeDuration = feedHashmasp.get("videoTimeDuration").toString();
+                    newFeed.owner = feedHashmasp.get("owner").toString();
+                    newFeed.likeCount = feedHashmasp.get("likeCount").toString();
+                    newFeed.videoName = feedHashmasp.get("videoName").toString();
+                    newFeed.videoId = feedHashmasp.get("videoId").toString();
+                    Log.e(TAG,"VIDEO ID -----------"+newFeed.videoId);
+
+
+                    feedsstorageReference.child(feedHashmasp.get("videoId").toString()+".jpg").getBytes(Long.MAX_VALUE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
+                        @Override
+                        public void onSuccess(byte[] bytes) {
+
+                            thumbnail= BitmapFactory.decodeByteArray(bytes,0,bytes.length);
+
+
+                            //Log.e(TAG,"Bitmap is not null -----"+newFeed.videoThumbnailImageView.getByteCount());
+                            newFeed.videoThumbnailImageView = thumbnail;
+
+                            if(newFeed != null && newFeed.videoThumbnailImageView != null){
+                                homeViewModels.add(newFeed);
+
+                                //sorting
+                                Collections.reverse(homeViewModels);
+
+                                myAdapter.notifyDataSetChanged();
+                                if(
+                                        myAdapter.getItemCount() > 0) {
+                                    sprite.stop();
+                                    spinKitView.setVisibility(View.INVISIBLE);
+                                }
+                            }else
+                            {
+                                Log.e(TAG,"newfeed prolem occured");
+                            }
+
+
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Log.e(TAG,"-----------------------------thumbnail problem"+e.getMessage());
+                        }
+                    });
+
+
+
+
+                }
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
 
          //retrieve info using email saved in Db
 
@@ -441,7 +562,7 @@ public class ProfileFragment extends Fragment {
 
             case UPLOAD_VIDEO:
                 Log.e("ProfileFragment","UPLOADBUTTON CLICKED.....................................");
-                Toast.makeText(getContext(),"UPLOAD Video button", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(),"UPLOAD video button", Toast.LENGTH_SHORT).show();
 
                 Uri fileUri = data.getData();
 
@@ -465,7 +586,7 @@ public class ProfileFragment extends Fragment {
                         @Override
                         public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
 
-                            Toast.makeText(getContext(),"Video uploaded succesfully.",Toast.LENGTH_LONG).show();
+                            Toast.makeText(getContext(),"video uploaded succesfully.",Toast.LENGTH_LONG).show();
 
 
                         }
@@ -564,4 +685,68 @@ public class ProfileFragment extends Fragment {
         galleryIntent.setType("image/*");
         startActivityForResult(galleryIntent, IMAGE_PICK_GALLERY_CODE);
     }
+
+
+    public class FeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
+
+
+        class FeedItem extends RecyclerView.ViewHolder{
+
+            ImageView postCellThumbnailImageView;
+            TextView postCellDurationTextView, postCellVideoTitleTextView, postCellVideouploadDateTextView, postCellLikeTextView, postCellCommentTextView;
+
+
+            public FeedItem(@NonNull View itemView) {
+                super(itemView);
+
+                postCellThumbnailImageView = itemView.findViewById(R.id.postCellThumbnailImageView);
+                postCellDurationTextView = itemView.findViewById(R.id.postCellDurationTextView);
+                postCellVideoTitleTextView = itemView.findViewById(R.id.postCellVideoTitleTextView);
+                postCellVideouploadDateTextView = itemView.findViewById(R.id.postCellVideouploadDateTextView);
+                postCellLikeTextView = itemView.findViewById(R.id.postCellLikeTextView);
+                postCellCommentTextView = itemView.findViewById(R.id.postCellCommentTextView);
+
+
+            }
+        }
+
+        @NonNull
+        @Override
+        public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+
+            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.feed_cell,parent,false);
+
+
+            return new FeedItem(view);
+        }
+
+        @Override
+        public void onBindViewHolder(@NonNull final RecyclerView.ViewHolder holder, int position) {
+
+            final HomeViewModel feed = homeViewModels.get(position);
+            ((FeedItem)holder).postCellVideoTitleTextView.setText(feed.videoName);
+            ((FeedItem)holder).postCellVideouploadDateTextView.setText("Uploaded on  "+feed.videoUploadDate);
+            ((FeedItem)holder).postCellDurationTextView.setText(feed.videoTimeDuration);
+            ((FeedItem)holder).postCellLikeTextView.setText("Likes "+feed.likeCount);
+            ((FeedItem)holder).postCellCommentTextView.setText("Comments "+feed.likeCount);
+            ((FeedItem)holder).postCellThumbnailImageView.setImageBitmap(feed.videoThumbnailImageView);
+
+            ((FeedItem)holder).itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    //Toast.makeText(getContext()," you clicked "+((FeedItem)holder).postCellVideoTitleTextView.getText(),Toast.LENGTH_LONG).show();
+
+
+                }
+            });
+
+        }
+
+        @Override
+        public int getItemCount() {
+            return homeViewModels.size();
+        }
+    }
+
 }

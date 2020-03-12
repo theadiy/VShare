@@ -3,6 +3,8 @@ package org.terna.vshare;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.ContentUris;
 import android.content.Context;
@@ -10,6 +12,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.media.MediaMetadataRetriever;
 import android.media.ThumbnailUtils;
 import android.net.Uri;
@@ -20,19 +23,28 @@ import android.provider.DocumentsContract;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.util.Size;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.github.ybq.android.spinkit.SpriteFactory;
+import com.github.ybq.android.spinkit.Style;
+import com.github.ybq.android.spinkit.sprite.Sprite;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnPausedListener;
 import com.google.firebase.storage.OnProgressListener;
@@ -41,10 +53,9 @@ import com.google.firebase.storage.UploadTask;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.IOException;
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 
@@ -73,6 +84,8 @@ public class UploadVideoActivity extends AppCompatActivity {
 
 
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -87,6 +100,10 @@ public class UploadVideoActivity extends AppCompatActivity {
 
         videoNameEditText = findViewById(R.id.uploadVideoNameEditText);
         videoDescriptionEditText = findViewById(R.id.uploadVideoDescription);
+
+
+
+
 
         sharedPreferences = getSharedPreferences("user", MODE_PRIVATE);
         Log.e(TAG,"SHARED PREFS -- "+sharedPreferences.getString("uid",""));
@@ -134,7 +151,7 @@ public class UploadVideoActivity extends AppCompatActivity {
                             @Override
                             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
 
-                                Toast.makeText(getBaseContext(),"Video uploaded succesfully.",Toast.LENGTH_LONG).show();
+                                Toast.makeText(getBaseContext(),"video uploaded succesfully.",Toast.LENGTH_LONG).show();
 
 
                             }
@@ -169,7 +186,7 @@ public class UploadVideoActivity extends AppCompatActivity {
                         //videoName =
                         //videoDescription =
 
-                        //Video Duration
+                        //video Duration
                         MediaMetadataRetriever retriever = new MediaMetadataRetriever();
                         retriever.setDataSource(getApplicationContext(), fileUri);
                         String time = retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION);
@@ -214,7 +231,7 @@ public class UploadVideoActivity extends AppCompatActivity {
                         }).addOnFailureListener(new OnFailureListener() {
                             @Override
                             public void onFailure(@NonNull Exception e) {
-                                Toast.makeText(getApplicationContext(),"Failed to create Video Thumbnail!",Toast.LENGTH_LONG).show();
+                                Toast.makeText(getApplicationContext(),"Failed to create video Thumbnail!",Toast.LENGTH_LONG).show();
 
                             }
                         });
@@ -248,7 +265,7 @@ public class UploadVideoActivity extends AppCompatActivity {
                     }
 
                 }else {
-                    Toast.makeText(getBaseContext(),"Please Enter Video Details!",Toast.LENGTH_LONG).show();
+                    Toast.makeText(getBaseContext(),"Please Enter video Details!",Toast.LENGTH_LONG).show();
 
                 }
 
@@ -279,7 +296,7 @@ public class UploadVideoActivity extends AppCompatActivity {
 
 
     }
-    // Convert Video Duration from Millisec to Min and secs
+    // Convert video Duration from Millisec to Min and secs
     String MilliSecToMinAndSecs(long millisec){
 
         String minSec = null;
@@ -457,4 +474,7 @@ public class UploadVideoActivity extends AppCompatActivity {
     public static boolean isMediaDocument(Uri uri) {
         return "com.android.providers.media.documents".equals(uri.getAuthority());
     }
+
+
+
 }

@@ -43,4 +43,6 @@
     <item name="postCellVideouploadDateTextView" type="id" />
     <item name="postCellLikeTextView" type="id" />
     <item name="postCellCommentTextView" type="id" />
+    <item name="uploadFeedRecyclerView" type="id" />
+    <item name="profileFeedRecyclerView" type="id" />
 </resources>

@@ -1,4 +1,4 @@
-package org.terna.vshare.ui.home;
+package org.terna.vshare;
 
 
 import android.graphics.Bitmap;
@@ -8,14 +8,14 @@ import java.io.Serializable;
 
 public class HomeViewModel implements Serializable {
 
-    String likeCount;
-    String owner;
-    String videoDescription;
-    String videoId;
-    String videoName;
-    String videoTimeDuration;
-    String videoUploadDate;
-    Bitmap videoThumbnailImageView;
+    public String likeCount;
+    public String owner;
+    public String videoDescription;
+    public String videoId;
+    public String videoName;
+    public String videoTimeDuration;
+    public String videoUploadDate;
+    public Bitmap videoThumbnailImageView;
 
     public HomeViewModel(String likeCount,
                          String owner,

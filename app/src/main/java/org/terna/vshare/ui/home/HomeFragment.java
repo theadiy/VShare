@@ -7,37 +7,29 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import androidx.annotation.Nullable;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.github.ybq.android.spinkit.SpriteFactory;
 import com.github.ybq.android.spinkit.Style;
 import com.github.ybq.android.spinkit.sprite.Sprite;
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
+import org.terna.vshare.HomeViewModel;
 import org.terna.vshare.R;
 
 import java.util.ArrayList;
@@ -161,7 +153,7 @@ public class HomeFragment extends Fragment {
         return root;
     }
 
-    class FeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
+    public class FeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
 
 
         class FeedItem extends RecyclerView.ViewHolder{
