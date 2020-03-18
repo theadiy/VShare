@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".VideoPlayerActivity"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <VideoView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@id/VideoPlayerVideoView">
+
+        </VideoView>
+
+        <ProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:id="@id/bufferProgressbar"
+            />
+
+        <ImageView
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            app:srcCompat="@mipmap/more_2"
+            android:layout_alignBottom="@id/VideoPlayerVideoView"
+            android:layout_alignEnd="@id/VideoPlayerVideoView"
+            android:background="@drawable/container"
+            android:backgroundTint="#61FFFFFF"
+            android:layout_margin="4dp"
+            android:id="@id/VideoPlayerFullScreenImagebutton"/>
+
+    </RelativeLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+    </LinearLayout>
+
+
+<!--    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/ColorWhite"
+        android:id="@id/VideoPlayerControllerRelativelayout"
+        >
+
+        <ImageView
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:id="@id/VideoPlayerPlayButton"
+            android:src="@mipmap/play_button"
+            android:layout_margin="5dp"
+            android:layout_centerVertical="true"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="0:00"
+            android:textSize="20sp"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
+            android:id="@id/VideoPlayerCurrentTimer"
+            android:layout_toRightOf="@id/VideoPlayerPlayButton"
+            android:layout_centerVertical="true"/>
+
+        <SeekBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+            android:id="@id/VideoPlayerProgressbar"
+            android:layout_gravity="center"
+            android:layout_toRightOf="@id/VideoPlayerCurrentTimer"
+            android:layout_toLeftOf="@id/VideoPlayerDurationTimer"
+            android:layout_centerVertical="true"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="0:00"
+            android:textSize="20sp"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
+            android:id="@id/VideoPlayerDurationTimer"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+             />
+
+    </RelativeLayout>-->
+</LinearLayout>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

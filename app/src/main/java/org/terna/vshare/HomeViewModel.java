@@ -15,7 +15,7 @@ public class HomeViewModel implements Serializable {
     public String videoName;
     public String videoTimeDuration;
     public String videoUploadDate;
-    public Bitmap videoThumbnailImageView;
+    public transient Bitmap videoThumbnailImageView;
 
     public HomeViewModel(String likeCount,
                          String owner,

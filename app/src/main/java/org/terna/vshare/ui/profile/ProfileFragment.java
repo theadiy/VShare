@@ -11,12 +11,15 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.provider.MediaStore;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -34,6 +37,7 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.github.ybq.android.spinkit.SpriteFactory;
 import com.github.ybq.android.spinkit.Style;
@@ -119,6 +123,7 @@ public class ProfileFragment extends Fragment {
     private FirebaseStorage postStorage;
     Bitmap thumbnail;
     ProgressBar spinKitView;
+    SwipeRefreshLayout videoRefreshlayout;
 
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -166,6 +171,19 @@ public class ProfileFragment extends Fragment {
         sprite.setColor(android.graphics.Color.parseColor("#fa0842"));
         spinKitView.setIndeterminateDrawable(sprite);
 
+        videoRefreshlayout = view.findViewById(R.id.profile_swipeRefreshrelativeLayout);
+        videoRefreshlayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                myAdapter.notifyDataSetChanged();
+                if(myAdapter.getItemCount() > 0){
+
+                    videoRefreshlayout.setRefreshing(false);
+                }
+
+            }
+        });
+
         //retrieving feeds
         postStorage = FirebaseStorage.getInstance();
         postDatabase = FirebaseDatabase.getInstance().getReference();
@@ -176,11 +194,17 @@ public class ProfileFragment extends Fragment {
 
         feedsstorageReference = FirebaseStorage.getInstance().getReference("VideosThumbnail");
         Query ownFeedsquery = feedsdatabaseReference.orderByChild("owner").equalTo(user.getUid());
+
+
+
         ownFeedsquery.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
+                homeViewModels.clear();
                 for (DataSnapshot feedsSnapshot : dataSnapshot.getChildren()){
+
+
 
                     final HashMap feedHashmasp = ((HashMap) feedsSnapshot.getValue());
                     final HomeViewModel newFeed = new HomeViewModel();
@@ -215,9 +239,9 @@ public class ProfileFragment extends Fragment {
                                 Collections.reverse(homeViewModels);
 
                                 myAdapter.notifyDataSetChanged();
-                                if(
-                                        myAdapter.getItemCount() > 0) {
+                                if(myAdapter.getItemCount() > 0) {
                                     sprite.stop();
+                                    videoRefreshlayout.setRefreshing(false);
                                     spinKitView.setVisibility(View.INVISIBLE);
                                 }
                             }else
@@ -594,6 +618,10 @@ public class ProfileFragment extends Fragment {
 
         }
 
+        Intent intent = new Intent(this.getContext(),ProfileFragment.class);
+        startActivity(intent);
+
+
     }
 
     private void uploadProfileCoverPhoto(Uri uri) {
@@ -736,7 +764,7 @@ public class ProfileFragment extends Fragment {
                 public void onClick(View v) {
 
                     //Toast.makeText(getContext()," you clicked "+((FeedItem)holder).postCellVideoTitleTextView.getText(),Toast.LENGTH_LONG).show();
-
+                    showEditVideoDialog(feed.videoId);
 
                 }
             });
@@ -749,4 +777,77 @@ public class ProfileFragment extends Fragment {
         }
     }
 
+
+    public void RemoveMyVideo(final String videoid){
+
+        FirebaseDatabase.getInstance().getReference().child("Videos").child(videoid).removeValue()
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+
+                        FirebaseStorage.getInstance().getReference().child("videos").child(videoid).delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void aVoid) {
+
+                                FirebaseStorage.getInstance().getReference().child("VideosThumbnail").child(videoid).delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+                                    @Override
+                                    public void onSuccess(Void aVoid) {
+                                        Toast.makeText(getContext(),"Deleted Successfully.",Toast.LENGTH_LONG).show();
+                                    }
+                                }).addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+                                        Toast.makeText(getContext(),"Error encountered !  ",Toast.LENGTH_LONG).show();
+                                    }
+                                });
+
+
+                            }
+                        }).addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+
+
+                            }
+                        });
+
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+
+                    }
+                });
+
+
+    }
+
+    private void showEditVideoDialog(final String videoId) {
+
+        //Showing Dialog edit options here
+        String options[] = {"view", "Delete"};
+        //alert dialog
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        //setTitle
+        builder.setTitle("Choose Action");
+        //set items to dialog
+        builder.setItems(options, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                //handle dialog item clicks
+                if (which == 0){
+                    //view
+                }
+                else if(which == 1){
+                    //delete
+                    Toast.makeText(getContext(),"please wait...",Toast.LENGTH_SHORT).show();
+                    RemoveMyVideo(videoId);
+                }
+            }
+        });
+        //create and show
+        builder.create().show();
+
+    }
 }

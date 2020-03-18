@@ -1,5 +1,6 @@
 package org.terna.vshare.ui.home;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
@@ -31,7 +32,9 @@ import com.google.firebase.storage.StorageReference;
 
 import org.terna.vshare.HomeViewModel;
 import org.terna.vshare.R;
+import org.terna.vshare.VideoPlayerActivity;
 
+import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -54,6 +57,8 @@ public class HomeFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_home, container, false);
+
+        
         //Loading screen
         spinKitView = root.findViewById(R.id.spin_kit);
         final Sprite sprite = SpriteFactory.create(Style.MULTIPLE_PULSE_RING);
@@ -149,8 +154,9 @@ public class HomeFragment extends Fragment {
 
 
 
-
         return root;
+
+
     }
 
     public class FeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
@@ -203,6 +209,26 @@ public class HomeFragment extends Fragment {
 
                     //Toast.makeText(getContext()," you clicked "+((FeedItem)holder).postCellVideoTitleTextView.getText(),Toast.LENGTH_LONG).show();
 
+                    Log.e(TAG,"feed ------"+feed.videoId);
+                    Log.e(TAG,"feed ------"+feed.videoName);
+                    Log.e(TAG,"feed ------"+feed.videoDescription);
+                    Log.e(TAG,"feed ------"+feed.videoUploadDate);
+                    Log.e(TAG,"feed ------"+feed.videoTimeDuration);
+                    Log.e(TAG,"feed ------"+feed.videoThumbnailImageView);
+
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable("feed",feed);
+
+                    ByteArrayOutputStream stream = new ByteArrayOutputStream();
+
+
+
+                    Intent intent = new Intent(HomeFragment.this.getContext(), VideoPlayerActivity.class);
+
+
+
+                    intent.putExtras(bundle);
+                    startActivity(intent);
 
                 }
             });
@@ -214,6 +240,7 @@ public class HomeFragment extends Fragment {
             return homeViewModels.size();
         }
     }
+
 
 
 

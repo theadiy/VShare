@@ -45,4 +45,13 @@
     <item name="postCellCommentTextView" type="id" />
     <item name="uploadFeedRecyclerView" type="id" />
     <item name="profileFeedRecyclerView" type="id" />
+    <item name="VideoPlayerVideoView" type="id" />
+    <item name="VideoPlayerPlayButton" type="id" />
+    <item name="VideoPlayerCurrentTimer" type="id" />
+    <item name="VideoPlayerProgressbar" type="id" />
+    <item name="VideoPlayerDurationTimer" type="id" />
+    <item name="bufferProgressbar" type="id" />
+    <item name="VideoPlayerControllerRelativelayout" type="id" />
+    <item name="profile_swipeRefreshrelativeLayout" type="id" />
+    <item name="VideoPlayerFullScreenImagebutton" type="id" />
 </resources>

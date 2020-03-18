@@ -283,11 +283,14 @@ public class UploadVideoActivity extends AppCompatActivity {
         switch (requestCode){
 
             case UPLOAD_VIDEO:
-                fileUri = data.getData();
+                if(data != null){
+                    fileUri = data.getData();
+                }else{
+                    Toast.makeText(getBaseContext(), "Not selected any file !", Toast.LENGTH_SHORT).show();
+                    }
+
                 //Log.e(TAG,"Date ------------------------------"+format);
-
-
-                break;
+            // break;
 
 
 
