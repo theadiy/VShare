@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <item name="signIn" type="id" />
     <item name="GoogleSignInButton" type="id" />
     <item name="register" type="id" />
     <item name="login" type="id" />
@@ -14,8 +13,6 @@
     <item name="registerLinearLayout" type="id" />
     <item name="username" type="id" />
     <item name="regemail" type="id" />
-    <item name="registerPassword" type="id" />
-    <item name="registerUsername2" type="id" />
     <item name="registerButton" type="id" />
     <item name="LoginOptionsLayout" type="id" />
     <item name="signOutButton" type="id" />
@@ -30,7 +27,6 @@
     <item name="profile_uploads_Button" type="id" />
     <item name="uploadButton" type="id" />
     <item name="uploadProgressBar" type="id" />
-    <item name="uploadPrecentTextView" type="id" />
     <item name="uploadPrcntTextView" type="id" />
     <item name="uploadVideoNameEditText" type="id" />
     <item name="uploadLinearLayout" type="id" />
@@ -43,15 +39,9 @@
     <item name="postCellVideouploadDateTextView" type="id" />
     <item name="postCellLikeTextView" type="id" />
     <item name="postCellCommentTextView" type="id" />
-    <item name="uploadFeedRecyclerView" type="id" />
     <item name="profileFeedRecyclerView" type="id" />
     <item name="VideoPlayerVideoView" type="id" />
-    <item name="VideoPlayerPlayButton" type="id" />
-    <item name="VideoPlayerCurrentTimer" type="id" />
-    <item name="VideoPlayerProgressbar" type="id" />
-    <item name="VideoPlayerDurationTimer" type="id" />
     <item name="bufferProgressbar" type="id" />
-    <item name="VideoPlayerControllerRelativelayout" type="id" />
     <item name="profile_swipeRefreshrelativeLayout" type="id" />
     <item name="VideoPlayerFullScreenImagebutton" type="id" />
     <item name="videoPlayerDateTextView" type="id" />
@@ -59,6 +49,5 @@
     <item name="videoPlayerUploadByTextView" type="id" />
     <item name="videoPlayerDescriptionTextView" type="id" />
     <item name="VideoDetailsLinearLayout" type="id" />
-    <item name="actionBarTextViewTitle" type="id" />
     <item name="videoPlayerToolbar" type="id" />
 </resources>

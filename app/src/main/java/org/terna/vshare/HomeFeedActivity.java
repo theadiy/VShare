@@ -105,7 +105,7 @@ public class HomeFeedActivity extends AppCompatActivity {
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         mAppBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.nav_home, R.id.nav_profile)
+                R.id.nav_home, R.id.nav_profile,R.id.nav_signout)
                 .setDrawerLayout(drawer)
                 .build();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
@@ -113,6 +113,9 @@ public class HomeFeedActivity extends AppCompatActivity {
         NavigationUI.setupWithNavController(navigationView, navController);
 
         updateNavReader();
+
+
+
     }
 
     @Override
@@ -146,7 +149,7 @@ public class HomeFeedActivity extends AppCompatActivity {
 
     }
 
-    private void SignOut() {
+    public void SignOut() {
         myEdit.clear();
         myEdit.apply();
 
@@ -209,7 +212,6 @@ public class HomeFeedActivity extends AppCompatActivity {
     public void onBackPressed() {
         super.onBackPressed();
         this.finish();
-
     }
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event)
@@ -217,6 +219,8 @@ public class HomeFeedActivity extends AppCompatActivity {
         if ((keyCode == KeyEvent.KEYCODE_BACK))
         {
             finish();
+            this.finishAndRemoveTask();
+
         }
         return super.onKeyDown(keyCode, event);
     }

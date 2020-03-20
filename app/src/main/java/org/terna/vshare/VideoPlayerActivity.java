@@ -229,14 +229,14 @@ public class VideoPlayerActivity extends AppCompatActivity {
 
 
                 if(isFullScreen){
-                    Log.e(TAG,"++++++++++++++++++++++++ U just portrait");
+                    Log.e(TAG,"++++++++++++++++++++++++ portrait");
                     getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
                     setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
                     getSupportActionBar().show();
                     isFullScreen = false;
                     videoDetailsLinearLayout.setVisibility(View.VISIBLE);
                 }else{
-                    Log.e(TAG,"++++++++++++++++++++++++ U just landscape");
+                    Log.e(TAG,"++++++++++++++++++++++++ landscape");
                     getSupportActionBar().hide();
                     videoDetailsLinearLayout.setVisibility(View.GONE);
                     isFullScreen = true;

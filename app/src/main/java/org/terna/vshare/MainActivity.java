@@ -214,11 +214,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.login:
                 Intent loginIntent = new Intent(MainActivity.this,LoginActivity.class);
                 startActivity(loginIntent);
+
                 break;
 
             case R.id.register:
                 Intent registerIntent = new Intent(MainActivity.this,RegisterActivity.class);
                 startActivity(registerIntent);
+
                 break;
 
             case R.id.GoogleSignInButton:
@@ -309,6 +311,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                             Intent intent = new Intent(MainActivity.this, HomeFeedActivity.class);
                             startActivity(intent);
+                            finish();
 
 
                         } else {
@@ -337,6 +340,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             //intent to home screen
             Intent i = new Intent(MainActivity.this,HomeFeedActivity.class);
             startActivity(i);
+            finish();
         }
 
     }
