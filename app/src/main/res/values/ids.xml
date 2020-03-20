@@ -50,4 +50,10 @@
     <item name="videoPlayerDescriptionTextView" type="id" />
     <item name="VideoDetailsLinearLayout" type="id" />
     <item name="videoPlayerToolbar" type="id" />
+    <item name="VideoPlayerLikeImageView" type="id" />
+    <item name="VideoPlayerCommentImageView" type="id" />
+    <item name="VideoPlayerCommentTextView" type="id" />
+    <item name="VideoPlayerLikeTextView" type="id" />
+    <item name="likeLinearLayout" type="id" />
+    <item name="commentLinearLayout" type="id" />
 </resources>

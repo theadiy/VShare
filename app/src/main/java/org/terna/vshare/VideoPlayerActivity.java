@@ -75,6 +75,13 @@ public class VideoPlayerActivity extends AppCompatActivity {
 
     Boolean isFullScreen;
 
+    ImageView likeImageView;
+    TextView likeTextView;
+    TextView commentTextView;
+    LinearLayout likeLinearLayout;
+    LinearLayout commentLinearLayout;
+    Boolean isLiked;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,6 +102,11 @@ public class VideoPlayerActivity extends AppCompatActivity {
         videoPlayerDateTextView = findViewById(R.id.videoPlayerDateTextView);
         videoPlayerUploadByTextView = findViewById(R.id.videoPlayerUploadByTextView);
 
+        likeImageView = findViewById(R.id.VideoPlayerLikeImageView);
+        likeTextView = findViewById(R.id.VideoPlayerLikeTextView);
+        commentTextView = findViewById(R.id.VideoPlayerCommentTextView);
+        likeLinearLayout = findViewById(R.id.likeLinearLayout);
+        commentLinearLayout = findViewById(R.id.commentLinearLayout);
 
         toolbar = findViewById(R.id.videoPlayerToolbar);
         setSupportActionBar(toolbar);
@@ -107,6 +119,7 @@ public class VideoPlayerActivity extends AppCompatActivity {
 
         isplaying = false;
         isFullScreen = false;
+        isLiked = false;
 
         final Sprite sprite = SpriteFactory.create(Style.MULTIPLE_PULSE_RING);
         //sprite.setAnimationDelay(50000);
@@ -222,6 +235,60 @@ public class VideoPlayerActivity extends AppCompatActivity {
 
 
 
+
+
+
+        likeLinearLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(isLiked){
+                    likeImageView.setImageResource(R.mipmap.dislike_1);
+                    isLiked = false;
+                    final DatabaseReference databaseReferenceLike = FirebaseDatabase.getInstance().getReference().child("Videos/"+feed.videoId);
+                    databaseReferenceLike.addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                            Log.e(TAG,"DISLIKE-------- "+dataSnapshot.child("likeCount").getValue());
+                            int like = Integer.parseInt(dataSnapshot.child("likeCount").getValue().toString()) - 1;
+                            Log.e(TAG,"DISLIKE-------- "+like);
+
+                            databaseReferenceLike.child("likeCount").setValue(Integer.toString(like));
+                            likeTextView.setText("Likes "+like);
+
+
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                        }
+                    });
+
+                }else{
+                    likeImageView.setImageResource(R.mipmap.like_1);
+                    isLiked = true;
+                    final DatabaseReference databaseReferenceLike = FirebaseDatabase.getInstance().getReference().child("Videos/"+feed.videoId);
+                    databaseReferenceLike.addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                            Log.e(TAG,"LIKE-------- "+dataSnapshot.child("likeCount").getValue());
+                            int like = Integer.parseInt(dataSnapshot.child("likeCount").getValue().toString()) + 1;
+                            Log.e(TAG,"LIKE-------- "+like);
+
+                            databaseReferenceLike.child("likeCount").setValue(Integer.toString(like));
+                            likeTextView.setText("Likes "+like);
+
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                        }
+                    });
+                }
+
+            }
+        });
 
         fullscreenButton.setOnClickListener(new View.OnClickListener() {
             @Override
