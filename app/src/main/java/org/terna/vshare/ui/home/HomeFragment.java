@@ -84,7 +84,7 @@ public class HomeFragment extends Fragment {
         feedsdatabaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-
+                homeViewModels.clear();
                 for (DataSnapshot feedsSnapshot : dataSnapshot.getChildren()){
 
                     final HashMap feedHashmasp = ((HashMap) feedsSnapshot.getValue());

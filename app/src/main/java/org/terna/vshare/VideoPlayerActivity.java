@@ -344,6 +344,24 @@ public class VideoPlayerActivity extends AppCompatActivity {
             }
         });
 
+        final DatabaseReference databaseReferenceLike = FirebaseDatabase.getInstance().getReference().child("Videos/"+feed.videoId);
+        databaseReferenceLike.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                Log.e(TAG,"LIKE-------- "+dataSnapshot.child("likeCount").getValue());
+                int like = Integer.parseInt(dataSnapshot.child("likeCount").getValue().toString());
+                Log.e(TAG,"LIKE-------- "+like);
+
+                likeTextView.setText("Likes "+like);
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
 
 
 
