@@ -1,10 +1,13 @@
 package org.terna.vshare;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
-import android.app.ActionBar;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.content.res.Configuration;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
@@ -31,6 +34,12 @@ import com.github.ybq.android.spinkit.SpriteFactory;
 import com.github.ybq.android.spinkit.Style;
 import com.github.ybq.android.spinkit.sprite.Sprite;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.StreamDownloadTask;
@@ -42,6 +51,8 @@ public class VideoPlayerActivity extends AppCompatActivity {
 
     private String TAG = "VideoPlayerActivity";
 
+
+    Toolbar toolbar;
     VideoView videoView;
     ImageView playButton;
     ImageView fullscreenButton;
@@ -56,6 +67,13 @@ public class VideoPlayerActivity extends AppCompatActivity {
 
     MediaController mediaController;
 
+    LinearLayout videoDetailsLinearLayout;
+    TextView videoPlayerTitleTextView;
+    TextView videoPlayerDescriptionTextView;
+    TextView videoPlayerDateTextView;
+    TextView videoPlayerUploadByTextView;
+
+    Boolean isFullScreen;
 
 
     @Override
@@ -71,12 +89,24 @@ public class VideoPlayerActivity extends AppCompatActivity {
         bufferProgressbar = findViewById(R.id.bufferProgressbar);
         fullscreenButton = findViewById(R.id.VideoPlayerFullScreenImagebutton);
 
+        videoDetailsLinearLayout = findViewById(R.id.VideoDetailsLinearLayout);
+        videoPlayerTitleTextView = findViewById(R.id.videoPlayerTitleTextView);
+        videoPlayerDescriptionTextView = findViewById(R.id.videoPlayerDescriptionTextView);
+        videoPlayerDateTextView = findViewById(R.id.videoPlayerDateTextView);
+        videoPlayerUploadByTextView = findViewById(R.id.videoPlayerUploadByTextView);
+
+
+        toolbar = findViewById(R.id.videoPlayerToolbar);
+        setSupportActionBar(toolbar);
+        toolbar.setTitle("VSHARE");
+        
 
         //videosPlayerProgressbar.setMax(100);
         mediaController = new MediaController(this);
         mediaController.setBackgroundColor(Color.parseColor("#00FCAFAF"));
 
         isplaying = false;
+        isFullScreen = false;
 
         final Sprite sprite = SpriteFactory.create(Style.MULTIPLE_PULSE_RING);
         //sprite.setAnimationDelay(50000);
@@ -90,7 +120,7 @@ public class VideoPlayerActivity extends AppCompatActivity {
 
 
         //Type object = (Type) bundle.getSerializable("KEY");
-        HomeViewModel feed = (HomeViewModel) bundle.getSerializable("feed");
+        final HomeViewModel feed = (HomeViewModel) bundle.getSerializable("feed");
 
 
         //videoView.setBackground(new BitmapDrawable(getResources(), feed.videoThumbnailImageView));
@@ -115,8 +145,8 @@ public class VideoPlayerActivity extends AppCompatActivity {
             @Override
             public void onPrepared(MediaPlayer mp) {
                 styleMediaController(mediaController);
-                getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-                        WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
+
 
 
 
@@ -142,6 +172,7 @@ public class VideoPlayerActivity extends AppCompatActivity {
                     videoView.setVideoURI(videouri);
                     videoView.requestFocus();
                     videoView.setMediaController(mediaController);
+
                     mediaController.setAnchorView(videoView);
 
                     videoView.start();
@@ -189,17 +220,70 @@ public class VideoPlayerActivity extends AppCompatActivity {
             }
         });*/
 
+
+
+
         fullscreenButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+
+
+                if(isFullScreen){
+                    Log.e(TAG,"++++++++++++++++++++++++ U just portrait");
+                    getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
+                    setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+                    getSupportActionBar().show();
+                    isFullScreen = false;
+                    videoDetailsLinearLayout.setVisibility(View.VISIBLE);
+                }else{
+                    Log.e(TAG,"++++++++++++++++++++++++ U just landscape");
+                    getSupportActionBar().hide();
+                    videoDetailsLinearLayout.setVisibility(View.GONE);
+                    isFullScreen = true;
+
+                    getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                            WindowManager.LayoutParams.FLAG_FULLSCREEN);
+                    setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+
+
+                }
 
 
             }
         });
 
+        //video details
+        videoPlayerTitleTextView.setText(feed.videoName);
+        videoPlayerDescriptionTextView.setText(videoPlayerDescriptionTextView.getText().toString()+feed.videoDescription);
+        videoPlayerDateTextView.setText(videoPlayerDateTextView.getText().toString()+feed.videoUploadDate);
+
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference().child("Users");
+        Query query = databaseReference.orderByChild("uid").equalTo(feed.owner);
+        query.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                Log.e(TAG,"Owner is -----------"+dataSnapshot.child(feed.owner).child("email"));
+
+                if(dataSnapshot.child(feed.owner).child("name") != null){
+                    videoPlayerUploadByTextView.setText(videoPlayerUploadByTextView.getText().toString()+dataSnapshot.child(feed.owner).child("name").getValue().toString());
+                }else {
+                    videoPlayerUploadByTextView.setText(videoPlayerUploadByTextView.getText().toString()+dataSnapshot.child(feed.owner).child("email").getValue().toString());
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+
+
+
 
     }
+
+
     private void styleMediaController(View view) {
         if (view instanceof MediaController) {
             MediaController v = (MediaController) view;

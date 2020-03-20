@@ -54,4 +54,11 @@
     <item name="VideoPlayerControllerRelativelayout" type="id" />
     <item name="profile_swipeRefreshrelativeLayout" type="id" />
     <item name="VideoPlayerFullScreenImagebutton" type="id" />
+    <item name="videoPlayerDateTextView" type="id" />
+    <item name="videoPlayerTitleTextView" type="id" />
+    <item name="videoPlayerUploadByTextView" type="id" />
+    <item name="videoPlayerDescriptionTextView" type="id" />
+    <item name="VideoDetailsLinearLayout" type="id" />
+    <item name="actionBarTextViewTitle" type="id" />
+    <item name="videoPlayerToolbar" type="id" />
 </resources>

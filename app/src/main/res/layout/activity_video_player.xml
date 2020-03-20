@@ -6,14 +6,18 @@
     android:layout_height="match_parent"
     tools:context=".VideoPlayerActivity"
     android:orientation="vertical">
+<include layout="@layout/toolbar"
+    android:id="@id/videoPlayerToolbar"/>
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+
         <VideoView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@id/VideoPlayerVideoView">
+            android:id="@id/VideoPlayerVideoView"
+            >
 
         </VideoView>
 
@@ -25,8 +29,8 @@
             />
 
         <ImageView
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             app:srcCompat="@mipmap/more_2"
             android:layout_alignBottom="@id/VideoPlayerVideoView"
             android:layout_alignEnd="@id/VideoPlayerVideoView"
@@ -36,11 +40,76 @@
             android:id="@id/VideoPlayerFullScreenImagebutton"/>
 
     </RelativeLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/colorPrimary"
+
+        />
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:id="@id/VideoDetailsLinearLayout"
+        >
+        <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="20dp"
+        android:text="Video Title"
+        android:padding="10dp"
+        android:id="@id/videoPlayerTitleTextView"
+        android:textColor="@color/ColorBlack"
+        />
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@android:color/darker_gray"
+            android:layout_marginStart="4dp"
+            android:layout_marginEnd="4dp"
+            />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="16dp"
+            android:text="Description : "
+            android:padding="10dp"
+            android:id="@id/videoPlayerDescriptionTextView"
+            />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@android:color/darker_gray"
+            android:layout_marginStart="4dp"
+            android:layout_marginEnd="4dp"
+            />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Date : "
+            android:paddingLeft="10dp"
+            android:id="@id/videoPlayerDateTextView"
+            android:layout_marginTop="10dp"
+            />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Uploaded by : "
+            android:paddingLeft="10dp"
+            android:id="@id/videoPlayerUploadByTextView"
+            android:layout_marginBottom="10dp"
+            />
 
     </LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/colorPrimary"
+
+        />
+
 
 
 <!--    <RelativeLayout

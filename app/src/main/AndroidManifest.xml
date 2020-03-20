@@ -15,7 +15,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         >
-        <activity android:name=".VideoPlayerActivity"></activity>
+        <activity android:name=".VideoPlayerActivity"
+            android:configChanges="orientation|screenSize"></activity>
         <activity android:name=".UploadVideoActivity" />
         <activity
             android:name=".HomeFeedActivity"
