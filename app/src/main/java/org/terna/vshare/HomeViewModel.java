@@ -9,6 +9,7 @@ import java.io.Serializable;
 public class HomeViewModel implements Serializable {
 
     public String likeCount;
+    public String commentCount;
     public String owner;
     public String videoDescription;
     public String videoId;
@@ -17,7 +18,9 @@ public class HomeViewModel implements Serializable {
     public String videoUploadDate;
     public transient Bitmap videoThumbnailImageView;
 
+
     public HomeViewModel(String likeCount,
+                         String commentCount,
                          String owner,
                          String videoDescription,
                          String videoId,
@@ -27,6 +30,7 @@ public class HomeViewModel implements Serializable {
                          Bitmap videoThumbnailImageView){
 
         this.likeCount = likeCount;
+        this.commentCount = commentCount;
         this.owner = owner;
         this.videoDescription = videoDescription;
         this.videoId = videoId;

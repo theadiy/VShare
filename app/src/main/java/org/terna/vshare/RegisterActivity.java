@@ -226,14 +226,12 @@ public class RegisterActivity extends AppCompatActivity {
                     myEdit = sharedPreferences.edit();
 
 
-                    // check for username
-                    // check email
+                    //check for username
+                    //check email
                     //check password match
                     if(pass.equals(pass2)){
 
                         progressBar.setVisibility(View.VISIBLE);
-
-
 
                         //push into firebase
                         //Toast.makeText(RegisterActivity.this,"Ready to create a account",Toast.LENGTH_SHORT).show();
@@ -249,29 +247,21 @@ public class RegisterActivity extends AppCompatActivity {
                                                     Toast.LENGTH_SHORT).show();
                                             SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy");
                                             createdOnDate = simpleDateFormat.format(new Date());
-
                                             FirebaseUser user = mAuth.getCurrentUser();
-
                                             //updateUI(user);
-
                                             //Get user email and uid from auth
-
                                             String email = user.getEmail();
                                             String uid = user.getUid();
-
                                             //When user is registered store user info in Fb realtime Db too
-
                                             HashMap<Object, String> hashMap = new HashMap<>();
-
                                             // put info in hashmap
-
                                             hashMap.put("uid",uid);
                                             hashMap.put("email",email);
                                             hashMap.put("name",uname);
                                             hashMap.put("image","");
                                             hashMap.put("bio","");
                                             hashMap.put("createdOn",createdOnDate);
-
+                                            hashMap.put("updatedOn","");
                                             //Fb Db instance
                                             FirebaseDatabase database = FirebaseDatabase.getInstance();
 

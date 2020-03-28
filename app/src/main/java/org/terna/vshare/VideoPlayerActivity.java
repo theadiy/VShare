@@ -5,6 +5,7 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
@@ -17,23 +18,30 @@ import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.MediaController;
 import android.widget.ProgressBar;
 import android.widget.SeekBar;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.VideoView;
 
 import com.github.ybq.android.spinkit.SpriteFactory;
 import com.github.ybq.android.spinkit.Style;
 import com.github.ybq.android.spinkit.sprite.Sprite;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -43,14 +51,17 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.StreamDownloadTask;
+import com.squareup.picasso.Picasso;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.HashMap;
 
 public class VideoPlayerActivity extends AppCompatActivity {
 
     private String TAG = "VideoPlayerActivity";
 
+    ProgressDialog pd;
 
     Toolbar toolbar;
     VideoView videoView;
@@ -61,6 +72,7 @@ public class VideoPlayerActivity extends AppCompatActivity {
     private SeekBar videosPlayerProgressbar;
     Uri videouri;
     boolean isplaying;
+
 
     int currentTime = 0;
     int durationTime = 0;
@@ -82,11 +94,22 @@ public class VideoPlayerActivity extends AppCompatActivity {
     LinearLayout commentLinearLayout;
     Boolean isLiked;
 
+    //comment views
+    EditText commentEt;
+    ImageButton sendBtn;
+    ImageView cImageview;
+
+    boolean nProcessComment = false;
+
+    String videoId , myDp , myName , myEmail , myUid;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_video_player);
+
+        //init views
 
         videoView = findViewById(R.id.VideoPlayerVideoView);
         //playButton = findViewById(R.id.VideoPlayerPlayButton);
@@ -108,6 +131,24 @@ public class VideoPlayerActivity extends AppCompatActivity {
         likeLinearLayout = findViewById(R.id.likeLinearLayout);
         commentLinearLayout = findViewById(R.id.commentLinearLayout);
 
+
+        commentEt = findViewById(R.id.commentEt);
+        sendBtn = findViewById(R.id.sendBtn);
+        cImageview = findViewById(R.id.cImageView);
+
+
+        checkUserStatus();
+
+        loadUserInfo();
+
+        sendBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                postComment();
+            }
+        });
+
+
         toolbar = findViewById(R.id.videoPlayerToolbar);
         setSupportActionBar(toolbar);
         toolbar.setTitle("VSHARE");
@@ -127,6 +168,7 @@ public class VideoPlayerActivity extends AppCompatActivity {
         bufferProgressbar.setIndeterminateDrawable(sprite);
 
         Intent intent = this.getIntent();
+
         Bundle bundle = intent.getExtras();
 
 
@@ -134,6 +176,10 @@ public class VideoPlayerActivity extends AppCompatActivity {
 
         //Type object = (Type) bundle.getSerializable("KEY");
         final HomeViewModel feed = (HomeViewModel) bundle.getSerializable("feed");
+
+        videoId = intent.getStringExtra("videoId");
+
+
 
 
         //videoView.setBackground(new BitmapDrawable(getResources(), feed.videoThumbnailImageView));
@@ -158,10 +204,6 @@ public class VideoPlayerActivity extends AppCompatActivity {
             @Override
             public void onPrepared(MediaPlayer mp) {
                 styleMediaController(mediaController);
-
-
-
-
 
 
             }
@@ -232,10 +274,6 @@ public class VideoPlayerActivity extends AppCompatActivity {
                 }
             }
         });*/
-
-
-
-
 
 
         likeLinearLayout.setOnClickListener(new View.OnClickListener() {
@@ -320,9 +358,12 @@ public class VideoPlayerActivity extends AppCompatActivity {
         });
 
         //video details
+        videoId = feed.videoId;
         videoPlayerTitleTextView.setText(feed.videoName);
         videoPlayerDescriptionTextView.setText(videoPlayerDescriptionTextView.getText().toString()+feed.videoDescription);
         videoPlayerDateTextView.setText(videoPlayerDateTextView.getText().toString()+feed.videoUploadDate);
+        commentTextView.setText(commentTextView.getText().toString()+feed.commentCount);
+
 
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference().child("Users");
         Query query = databaseReference.orderByChild("uid").equalTo(feed.owner);
@@ -353,7 +394,6 @@ public class VideoPlayerActivity extends AppCompatActivity {
                 Log.e(TAG,"LIKE-------- "+like);
 
                 likeTextView.setText("Likes "+like);
-
             }
 
             @Override
@@ -363,10 +403,135 @@ public class VideoPlayerActivity extends AppCompatActivity {
         });
 
 
+    }
 
+
+    private void loadUserInfo() {
+        //get current user info
+        Query myRef = FirebaseDatabase.getInstance().getReference("Users");
+        myRef.orderByChild("uid").equalTo(myUid).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for (DataSnapshot ds: dataSnapshot.getChildren()){
+                    //get data
+                    myEmail = ""+ds.child("email").getValue();
+                    myUid = ""+ds.child("uid").getValue();
+                    myName = ""+ds.child("name").getValue();
+                    myDp = ""+ds.child("image").getValue();
+
+                    //set data
+
+                    try {
+                        Picasso.get().load(myDp).into(cImageview);
+                    }
+                    catch (Exception e){
+                        Picasso.get().load(R.drawable.ic_profile_photo).into(cImageview);
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    private void checkUserStatus(){
+
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if (user != null){
+            //user signed in
+            myEmail = user.getEmail();
+            myUid = user.getUid();
+        }
+        else {
+            //user not signed in
+            startActivity(new Intent(this, MainActivity.class));
+            finish();
+        }
+    }
+
+    private void postComment() {
+        pd = new ProgressDialog(this);
+        pd.setMessage("Adding comment");
+
+        //get  data from comment
+        String comment = commentEt.getText().toString().trim();
+        //validating
+        if(TextUtils.isEmpty(comment)){
+            //if no value is entered
+            Toast.makeText(this, "Comment is empty", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        String timeStamp = String.valueOf(System.currentTimeMillis());
+
+
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Videos").child(videoId).child("comments");
+        HashMap<String, Object> hashMap = new HashMap<>();
+        //put info in hashmap
+        hashMap.put("com_id", timeStamp);
+        hashMap.put("com_Des", comment);
+        hashMap.put("createdOn", timeStamp);
+        hashMap.put("uid", myUid);
+        hashMap.put("uEmail", myEmail);
+        hashMap.put("uDp", myDp);
+        hashMap.put("uName", myName);
+
+        //put this data in db
+
+        ref.child(timeStamp).setValue(hashMap)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        pd.dismiss();
+                        Toast.makeText(VideoPlayerActivity.this, "Comment added", Toast.LENGTH_SHORT).show();
+                        commentEt.setText("");
+                        updateCommentCount();
+
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        pd.dismiss();
+                        Toast.makeText(VideoPlayerActivity.this, ""+e.getMessage(), Toast.LENGTH_SHORT).show();
+
+
+                    }
+                });
 
 
     }
+
+
+    private void updateCommentCount() {
+        //comment count
+        nProcessComment = true;
+        final DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Videos").child(videoId);
+        ref.addListenerForSingleValueEvent(new ValueEventListener() {
+
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (nProcessComment){
+                    String comments = ""+ dataSnapshot.child("commentCount").getValue();
+                    int newCommentVal = Integer.parseInt(comments) + 1;
+                    ref.child("commentCount").setValue(""+newCommentVal);
+                    nProcessComment = false;
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+
+    }
+
+
 
 
     private void styleMediaController(View view) {

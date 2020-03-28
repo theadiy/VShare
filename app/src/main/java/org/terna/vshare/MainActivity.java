@@ -47,7 +47,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private AlertDialog.Builder alert;
     private AlertDialog message;
-    private static final String TAG = "MainAcitvity";
+    private static final String TAG = "MainActivity";
 
     SharedPreferences sharedPreferences ;
     SharedPreferences.Editor myEdit;
@@ -297,6 +297,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                 hashMap.put("image","");
                                 hashMap.put("bio","");
                                 hashMap.put("createdOn",createdOnDate);
+                                hashMap.put("updatedOn","");
+
                                 //Fb Db instance
                                 FirebaseDatabase database = FirebaseDatabase.getInstance();
                                 //path to store data named "Users"

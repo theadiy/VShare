@@ -75,7 +75,7 @@ public class UploadVideoActivity extends AppCompatActivity {
     TextView uploadPercentTextView;
 
     String videoId, videoName, videoDescription, owner, videoTimeDuration, videoUploadDate;
-    int likeCount ;
+    int likeCount, commentCount ;
     EditText videoNameEditText, videoDescriptionEditText;
 
     SharedPreferences sharedPreferences ;
@@ -239,6 +239,7 @@ public class UploadVideoActivity extends AppCompatActivity {
 
 
                         likeCount = 0;
+                        commentCount = 0;
 
                         HashMap<Object, String> hashMap = new HashMap<>();
                         // put info in hashmap
@@ -249,6 +250,7 @@ public class UploadVideoActivity extends AppCompatActivity {
                         hashMap.put("videoTimeDuration",videoTimeDuration);
                         hashMap.put("videoUploadDate",videoUploadDate);
                         hashMap.put("likeCount",String.valueOf(likeCount));
+                        hashMap.put("commentCount",String.valueOf(commentCount));
 
 
 

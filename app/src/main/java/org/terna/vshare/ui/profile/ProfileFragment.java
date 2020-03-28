@@ -217,6 +217,7 @@ public class ProfileFragment extends Fragment {
                     newFeed.videoTimeDuration = feedHashmasp.get("videoTimeDuration").toString();
                     newFeed.owner = feedHashmasp.get("owner").toString();
                     newFeed.likeCount = feedHashmasp.get("likeCount").toString();
+                    newFeed.commentCount = feedHashmasp.get("commentCount").toString();
                     newFeed.videoName = feedHashmasp.get("videoName").toString();
                     newFeed.videoId = feedHashmasp.get("videoId").toString();
                     Log.e(TAG,"VIDEO ID -----------"+newFeed.videoId);
@@ -567,7 +568,6 @@ public class ProfileFragment extends Fragment {
         // Upload button CODE
 
 
-
         switch (requestCode){
 
 
@@ -618,10 +618,6 @@ public class ProfileFragment extends Fragment {
 
         }
 
-        Intent intent = new Intent(this.getContext(),ProfileFragment.class);
-        startActivity(intent);
-
-
     }
 
     private void uploadProfileCoverPhoto(Uri uri) {
@@ -652,7 +648,7 @@ public class ProfileFragment extends Fragment {
                                     .addOnSuccessListener(new OnSuccessListener<Void>() {
                                         @Override
                                         public void onSuccess(Void aVoid) {
-                                            //url in databse of user is added successfully
+                                            //url in database of user is added successfully
                                             pd.dismiss();
                                             Toast.makeText(getActivity(), "Image Updated", Toast.LENGTH_SHORT).show();
 
@@ -756,7 +752,7 @@ public class ProfileFragment extends Fragment {
             ((FeedItem)holder).postCellVideouploadDateTextView.setText("Uploaded on  "+feed.videoUploadDate);
             ((FeedItem)holder).postCellDurationTextView.setText(feed.videoTimeDuration);
             ((FeedItem)holder).postCellLikeTextView.setText("Likes "+feed.likeCount);
-            ((FeedItem)holder).postCellCommentTextView.setText("Comments "+feed.likeCount);
+            ((FeedItem)holder).postCellCommentTextView.setText("Comments "+feed.commentCount);
             ((FeedItem)holder).postCellThumbnailImageView.setImageBitmap(feed.videoThumbnailImageView);
 
             ((FeedItem)holder).itemView.setOnClickListener(new View.OnClickListener() {

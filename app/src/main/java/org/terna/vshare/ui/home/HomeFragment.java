@@ -98,6 +98,7 @@ public class HomeFragment extends Fragment {
                     newFeed.videoTimeDuration = feedHashmasp.get("videoTimeDuration").toString();
                     newFeed.owner = feedHashmasp.get("owner").toString();
                     newFeed.likeCount = feedHashmasp.get("likeCount").toString();
+                    newFeed.commentCount = feedHashmasp.get("commentCount").toString();
                     newFeed.videoName = feedHashmasp.get("videoName").toString();
                     newFeed.videoId = feedHashmasp.get("videoId").toString();
                     Log.e(TAG,"VIDEO ID -----------"+newFeed.videoId);
@@ -127,7 +128,7 @@ public class HomeFragment extends Fragment {
                                 }
                             }else
                             {
-                                Log.e(TAG,"newfeed prolem occured");
+                                Log.e(TAG,"newfeed problem occured");
                             }
 
 
@@ -200,7 +201,7 @@ public class HomeFragment extends Fragment {
             ((FeedItem)holder).postCellVideouploadDateTextView.setText("Uploaded on  "+feed.videoUploadDate);
             ((FeedItem)holder).postCellDurationTextView.setText(feed.videoTimeDuration);
             ((FeedItem)holder).postCellLikeTextView.setText("Likes "+feed.likeCount);
-            ((FeedItem)holder).postCellCommentTextView.setText("Comments "+feed.likeCount);
+            ((FeedItem)holder).postCellCommentTextView.setText("Comments "+feed.commentCount);
             ((FeedItem)holder).postCellThumbnailImageView.setImageBitmap(feed.videoThumbnailImageView);
 
             ((FeedItem)holder).itemView.setOnClickListener(new View.OnClickListener() {

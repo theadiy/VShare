@@ -3,177 +3,170 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".VideoPlayerActivity"
-    android:orientation="vertical">
-<include layout="@layout/toolbar"
-    android:id="@id/videoPlayerToolbar"/>
+    android:layout_height="fill_parent"
+    android:orientation="vertical"
+    tools:context=".VideoPlayerActivity">
+
+    <include
+        android:id="@id/videoPlayerToolbar"
+        layout="@layout/toolbar" />
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <VideoView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
             android:id="@id/VideoPlayerVideoView"
-            >
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
         </VideoView>
 
         <ProgressBar
+            android:id="@id/bufferProgressbar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:id="@id/bufferProgressbar"
-            />
+            android:layout_centerInParent="true" />
 
         <ImageView
+            android:id="@id/VideoPlayerFullScreenImagebutton"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            app:srcCompat="@mipmap/more_2"
-            android:layout_alignBottom="@id/VideoPlayerVideoView"
             android:layout_alignEnd="@id/VideoPlayerVideoView"
+            android:layout_alignBottom="@id/VideoPlayerVideoView"
+            android:layout_margin="4dp"
             android:background="@drawable/container"
             android:backgroundTint="#61FFFFFF"
-            android:layout_margin="4dp"
-            android:id="@id/VideoPlayerFullScreenImagebutton"/>
+            app:srcCompat="@mipmap/more_2" />
 
     </RelativeLayout>
+
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="@color/colorPrimary"
 
         />
+
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
         android:id="@id/VideoDetailsLinearLayout"
-        >
-        <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="20dp"
-        android:text="Video Title"
-        android:padding="10dp"
-        android:id="@id/videoPlayerTitleTextView"
-        android:textColor="@color/ColorBlack"
-        />
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@android:color/darker_gray"
-            android:layout_marginStart="4dp"
-            android:layout_marginEnd="4dp"
-            />
+        android:orientation="vertical">
+
         <TextView
+            android:id="@id/videoPlayerTitleTextView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="16dp"
-            android:text="Description : "
             android:padding="10dp"
-            android:id="@id/videoPlayerDescriptionTextView"
-            />
+            android:text="Video Title"
+            android:textColor="@color/ColorBlack"
+            android:textSize="20dp" />
 
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="@android:color/darker_gray"
             android:layout_marginStart="4dp"
             android:layout_marginEnd="4dp"
-            />
+            android:background="@android:color/darker_gray" />
 
         <TextView
+            android:id="@id/videoPlayerDescriptionTextView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Date : "
-            android:paddingLeft="10dp"
-            android:id="@id/videoPlayerDateTextView"
-            android:layout_marginTop="10dp"
-            />
+            android:padding="10dp"
+            android:text="Description : "
+            android:textSize="16dp" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginStart="4dp"
+            android:layout_marginEnd="4dp"
+            android:background="@android:color/darker_gray" />
+
         <TextView
+            android:id="@id/videoPlayerDateTextView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Uploaded by : "
+            android:layout_marginTop="10dp"
             android:paddingLeft="10dp"
+            android:text="Date : " />
+
+        <TextView
             android:id="@id/videoPlayerUploadByTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
-            />
+            android:paddingLeft="10dp"
+            android:text="Uploaded by : " />
 
     </LinearLayout>
+
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="@color/colorPrimary"
 
         />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:padding="4dp"
-        >
+        android:padding="4dp">
+
         <LinearLayout
+            android:id="@id/likeLinearLayout"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:id="@id/likeLinearLayout">
+            android:layout_weight="1">
+
             <ImageView
+                android:id="@id/VideoPlayerLikeImageView"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
-                android:src="@mipmap/dislike_1"
                 android:layout_marginStart="50dp"
-                android:id="@id/VideoPlayerLikeImageView"/>
+                android:src="@mipmap/dislike_1" />
+
             <TextView
+                android:id="@id/VideoPlayerLikeTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:text="Likes "
                 android:layout_weight="1"
                 android:gravity="center"
-                android:id="@id/VideoPlayerLikeTextView"/>
+                android:text="Likes " />
         </LinearLayout>
 
         <View
             android:layout_width="1dp"
             android:layout_height="20dp"
-            android:background="@android:color/darker_gray"
-            />
+            android:background="@android:color/darker_gray" />
 
         <LinearLayout
+            android:id="@id/commentLinearLayout"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:id="@id/commentLinearLayout">
+            android:layout_weight="1">
 
             <ImageView
+                android:id="@id/VideoPlayerCommentImageView"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
                 android:layout_marginStart="50dp"
-                android:src="@mipmap/list_1"
-                android:id="@id/VideoPlayerCommentImageView"
-                />
+                android:src="@mipmap/list_1" />
+
             <TextView
+                android:id="@id/VideoPlayerCommentTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:text="Comments "
                 android:layout_weight="1"
                 android:gravity="center"
-                android:id="@id/VideoPlayerCommentTextView"/>
+                android:text="Comments " />
         </LinearLayout>
     </LinearLayout>
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/colorPrimary"
-
-        />
-
-
-
-<!--    <RelativeLayout
+    <!--    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/ColorWhite"
@@ -223,6 +216,48 @@
              />
 
     </RelativeLayout>-->
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/colorPrimary" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:id="@+id/cImageView"
+            android:src="@drawable/ic_profile_photo"
+            android:layout_gravity="bottom"/>
+
+
+        <EditText
+            android:id="@+id/commentEt"
+            android:layout_gravity="bottom"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="1dp"
+            android:layout_toEndOf="@+id/cImageView"
+            android:background="@color/ColorWhite"
+            android:hint="Enter comment"
+            android:inputType="textCapSentences|textMultiLine"
+            android:padding="10dp" />
+
+        <ImageButton
+            android:id="@+id/sendBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:src="@drawable/ic_sendbtn" />
+
+
+    </LinearLayout>
+
+
 </LinearLayout>
 
 
