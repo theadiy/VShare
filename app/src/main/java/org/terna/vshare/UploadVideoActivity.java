@@ -29,6 +29,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -53,6 +54,7 @@ import com.google.firebase.storage.UploadTask;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -206,12 +208,31 @@ public class UploadVideoActivity extends AppCompatActivity {
                         Log.e(TAG,"getPath() ------------------------"+getPath(getApplicationContext(),fileUri));
 
                         File VideoFile = new File(getPath(getApplicationContext(),fileUri));
-
-
-                        Size size = new Size(512,384);
-
                         Bitmap bitmap = null;
-                        bitmap = ThumbnailUtils.createVideoThumbnail(VideoFile.getAbsolutePath(), MediaStore.Video.Thumbnails.FULL_SCREEN_KIND);
+
+                        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q){
+                            // Do something for api29
+                            Log.e(TAG,"Device is API 29 or greater");
+                            MediaMetadataRetriever metaRetriever = new MediaMetadataRetriever();
+                            metaRetriever.setDataSource(getApplicationContext(),fileUri);
+                            String height = metaRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_VIDEO_HEIGHT);
+                            String width = metaRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_VIDEO_WIDTH);
+                            Log.e(TAG,"Device is API 29 or greater "+height+" "+width);
+                            Size size = new Size(Integer.valueOf(height),Integer.valueOf(width));
+                            Log.e(TAG,"ITTTTTTTTTTTTmap "+VideoFile.isFile());
+                            Log.e(TAG,"ITTTTTTTTTTTTmap "+VideoFile.getPath());
+                            Log.e(TAG,"ITTTTTTTTTTTTmap "+VideoFile.getAbsolutePath());
+
+//                                bitmap = ThumbnailUtils.createVideoThumbnail(VideoFile,size,null);
+                            bitmap = metaRetriever.getFrameAtTime(-1);
+
+                            Log.e(TAG,"ITTTTTTTTTTTTmap "+bitmap.getHeight());
+                        } else{
+                            // do something for phones running an SDK before api 29
+                            bitmap = ThumbnailUtils.createVideoThumbnail(VideoFile.getAbsolutePath(), MediaStore.Video.Thumbnails.FULL_SCREEN_KIND);
+                        }
+
+
 
 
                         //pushing thumbnail to firebase

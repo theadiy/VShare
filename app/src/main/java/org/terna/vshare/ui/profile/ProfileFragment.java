@@ -618,6 +618,10 @@ public class ProfileFragment extends Fragment {
 
         }
 
+        Intent intent = new Intent(this.getContext(),ProfileFragment.class);
+        startActivity(intent);
+
+
     }
 
     private void uploadProfileCoverPhoto(Uri uri) {
@@ -781,18 +785,23 @@ public class ProfileFragment extends Fragment {
                     @Override
                     public void onSuccess(Void aVoid) {
 
-                        FirebaseStorage.getInstance().getReference().child("videos").child(videoid).delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+                        Log.e(TAG,"Video Info deleted from database.");
+
+                        FirebaseStorage.getInstance().getReference().child("videos").child(videoid+".mp4").delete().addOnSuccessListener(new OnSuccessListener<Void>() {
                             @Override
                             public void onSuccess(Void aVoid) {
-
-                                FirebaseStorage.getInstance().getReference().child("VideosThumbnail").child(videoid).delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+                                Log.e(TAG,"Video deleted from storage.");
+                                FirebaseStorage.getInstance().getReference().child("VideosThumbnail").child(videoid+".jpg").delete().addOnSuccessListener(new OnSuccessListener<Void>() {
                                     @Override
                                     public void onSuccess(Void aVoid) {
+                                        Log.e(TAG,"Video Thumbnail deleted from storage.");
                                         Toast.makeText(getContext(),"Deleted Successfully.",Toast.LENGTH_LONG).show();
                                     }
                                 }).addOnFailureListener(new OnFailureListener() {
                                     @Override
                                     public void onFailure(@NonNull Exception e) {
+
+                                        Log.e(TAG,"Failed Video Thumbnail deleted from storage.");
                                         Toast.makeText(getContext(),"Error encountered !  ",Toast.LENGTH_LONG).show();
                                     }
                                 });
@@ -803,6 +812,8 @@ public class ProfileFragment extends Fragment {
                             @Override
                             public void onFailure(@NonNull Exception e) {
 
+                                Log.e(TAG,"Failed Video deleted from storage.");
+
 
                             }
                         });
@@ -812,7 +823,7 @@ public class ProfileFragment extends Fragment {
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-
+                        Log.e(TAG,"Failed Video Info deleted from database.");
                     }
                 });
 
