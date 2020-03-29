@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="fill_parent"
     android:orientation="vertical"
-    tools:context=".VideoPlayerActivity">
+    tools:context=".VideoPlayerActivity"
+    android:id="@id/VideoPlayerMainLayout">
 
     <include
         android:id="@id/videoPlayerToolbar"
@@ -13,7 +14,8 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:id="@id/VideoPlayerVideoViewLayout">
 
         <VideoView
             android:id="@id/VideoPlayerVideoView"
@@ -45,6 +47,8 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="@color/colorPrimary"
+        android:layout_below="@id/VideoPlayerVideoViewLayout"
+        android:id="@id/VideoPlayerLine1"
 
         />
 
@@ -52,7 +56,8 @@
         android:id="@id/VideoDetailsLinearLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:layout_below="@id/VideoPlayerLine1">
 
         <TextView
             android:id="@id/videoPlayerTitleTextView"
@@ -107,6 +112,8 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="@color/colorPrimary"
+        android:id="@id/VideoPlayerLine2"
+        android:layout_below="@id/VideoDetailsLinearLayout"
 
         />
 
@@ -114,7 +121,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:padding="4dp">
+        android:padding="4dp"
+        android:layout_below="@id/VideoPlayerLine2"
+        android:id="@id/VideoPlayerLikeCommentLayout">
 
         <LinearLayout
             android:id="@id/likeLinearLayout"
@@ -147,7 +156,8 @@
             android:id="@id/commentLinearLayout"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_weight="1">
+            android:layout_weight="1"
+            >
 
             <ImageView
                 android:id="@id/VideoPlayerCommentImageView"
@@ -220,45 +230,57 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@color/colorPrimary" />
+        android:background="@color/colorPrimary"
+        android:layout_below="@id/VideoPlayerLikeCommentLayout"
+        android:id="@id/VideoPlayerLine3"
+        />
 
-    <LinearLayout
+
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="horizontal">
+        android:layout_height="wrap_content"
+        android:id="@id/VideoPlayerCommentLayout"
+        android:layout_alignParentBottom="true"
+
+        >
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:id="@+id/cImageView"
             android:src="@drawable/ic_profile_photo"
-            android:layout_gravity="bottom"/>
+            android:layout_centerVertical="true"
+            />
 
 
         <EditText
             android:id="@+id/commentEt"
-            android:layout_gravity="bottom"
-            android:layout_width="300dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="1dp"
             android:layout_toEndOf="@+id/cImageView"
             android:background="@color/ColorWhite"
             android:hint="Enter comment"
             android:inputType="textCapSentences|textMultiLine"
-            android:padding="10dp" />
+            android:padding="10dp"
+            android:layout_centerVertical="true"
+            android:layout_toStartOf="@id/sendBtn"
+            />
 
         <ImageButton
             android:id="@+id/sendBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
-            android:src="@drawable/ic_sendbtn" />
+            android:src="@drawable/ic_sendbtn"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            />
 
 
-    </LinearLayout>
+    </RelativeLayout>
 
 
-</LinearLayout>
+</RelativeLayout>
 
 
 

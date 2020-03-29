@@ -30,6 +30,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.MediaController;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -92,6 +93,9 @@ public class VideoPlayerActivity extends AppCompatActivity {
     TextView commentTextView;
     LinearLayout likeLinearLayout;
     LinearLayout commentLinearLayout;
+    View line1, line2, line3;
+    LinearLayout likeCommentLinearlayout;
+    RelativeLayout commentMainRelativeLayout;
     Boolean isLiked;
 
     //comment views
@@ -130,6 +134,11 @@ public class VideoPlayerActivity extends AppCompatActivity {
         commentTextView = findViewById(R.id.VideoPlayerCommentTextView);
         likeLinearLayout = findViewById(R.id.likeLinearLayout);
         commentLinearLayout = findViewById(R.id.commentLinearLayout);
+        line1 = findViewById(R.id.VideoPlayerLine1);
+        line2 = findViewById(R.id.VideoPlayerLine2);
+        line3 = findViewById(R.id.VideoPlayerLine3);
+        likeCommentLinearlayout = findViewById(R.id.VideoPlayerLikeCommentLayout);
+        commentMainRelativeLayout = findViewById(R.id.VideoPlayerCommentLayout);
 
 
         commentEt = findViewById(R.id.commentEt);
@@ -340,10 +349,20 @@ public class VideoPlayerActivity extends AppCompatActivity {
                     getSupportActionBar().show();
                     isFullScreen = false;
                     videoDetailsLinearLayout.setVisibility(View.VISIBLE);
+                    line1.setVisibility(View.VISIBLE);
+                    line2.setVisibility(View.VISIBLE);
+                    line3.setVisibility(View.VISIBLE);
+                    likeCommentLinearlayout.setVisibility(View.VISIBLE);
+                    commentMainRelativeLayout.setVisibility(View.VISIBLE);
                 }else{
                     Log.e(TAG,"++++++++++++++++++++++++ landscape");
                     getSupportActionBar().hide();
                     videoDetailsLinearLayout.setVisibility(View.GONE);
+                    line1.setVisibility(View.GONE);
+                    line2.setVisibility(View.GONE);
+                    line3.setVisibility(View.GONE);
+                    likeCommentLinearlayout.setVisibility(View.GONE);
+                    commentMainRelativeLayout.setVisibility(View.GONE);
                     isFullScreen = true;
 
                     getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,

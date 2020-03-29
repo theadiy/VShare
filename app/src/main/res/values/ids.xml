@@ -56,4 +56,11 @@
     <item name="VideoPlayerLikeTextView" type="id" />
     <item name="likeLinearLayout" type="id" />
     <item name="commentLinearLayout" type="id" />
+    <item name="VideoPlayerCommentLayout" type="id" />
+    <item name="VideoPlayerMainLayout" type="id" />
+    <item name="VideoPlayerVideoViewLayout" type="id" />
+    <item name="VideoPlayerLine1" type="id" />
+    <item name="VideoPlayerLine2" type="id" />
+    <item name="VideoPlayerLikeCommentLayout" type="id" />
+    <item name="VideoPlayerLine3" type="id" />
 </resources>
