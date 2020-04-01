@@ -4,6 +4,8 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -56,7 +58,9 @@ import com.squareup.picasso.Picasso;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class VideoPlayerActivity extends AppCompatActivity {
 
@@ -107,6 +111,11 @@ public class VideoPlayerActivity extends AppCompatActivity {
 
     String videoId , myDp , myName , myEmail , myUid;
 
+    RecyclerView recyclerView;
+
+    List<CommentModel> commentList;
+    AdapterComments adapterComments;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -144,11 +153,13 @@ public class VideoPlayerActivity extends AppCompatActivity {
         commentEt = findViewById(R.id.commentEt);
         sendBtn = findViewById(R.id.sendBtn);
         cImageview = findViewById(R.id.cImageView);
+        recyclerView = findViewById(R.id.recyclerView);
 
 
         checkUserStatus();
 
         loadUserInfo();
+
 
         sendBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -156,6 +167,9 @@ public class VideoPlayerActivity extends AppCompatActivity {
                 postComment();
             }
         });
+        Log.e("MSg.....","video id: "+videoId);
+
+
 
 
         toolbar = findViewById(R.id.videoPlayerToolbar);
@@ -186,7 +200,12 @@ public class VideoPlayerActivity extends AppCompatActivity {
         //Type object = (Type) bundle.getSerializable("KEY");
         final HomeViewModel feed = (HomeViewModel) bundle.getSerializable("feed");
 
+
         videoId = intent.getStringExtra("videoId");
+
+
+
+        loadComment();
 
 
 
@@ -424,6 +443,46 @@ public class VideoPlayerActivity extends AppCompatActivity {
 
     }
 
+    private void loadComment() {
+        //Linear Layout for recycler
+
+
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
+        recyclerView.setLayoutManager(layoutManager);
+
+        //init comment list
+
+        commentList = new ArrayList<>();
+
+        //path of post
+
+        Log.e("MSg.....","video id: "+videoId);
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Videos").child(videoId).child("comments");
+
+
+
+        ref.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                commentList.clear();
+                for (DataSnapshot ds : dataSnapshot.getChildren()){
+                    CommentModel commentModel = ds.getValue(CommentModel.class);
+
+                    commentList.add(commentModel);
+                    //setup adapter
+                    adapterComments = new AdapterComments(getApplicationContext(),commentList);
+
+                    recyclerView.setAdapter(adapterComments);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
+
 
     private void loadUserInfo() {
         //get current user info
@@ -485,6 +544,8 @@ public class VideoPlayerActivity extends AppCompatActivity {
         }
 
         String timeStamp = String.valueOf(System.currentTimeMillis());
+
+        Log.e("MSg.....","video id: "+videoId);
 
 
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Videos").child(videoId).child("comments");
