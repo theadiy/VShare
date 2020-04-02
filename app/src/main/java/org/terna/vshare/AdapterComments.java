@@ -2,6 +2,7 @@ package org.terna.vshare;
 
 import android.content.Context;
 import android.text.format.DateFormat;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -52,6 +53,7 @@ public class AdapterComments extends  RecyclerView.Adapter<AdapterComments.MyHol
 
         //timestamp
         Calendar calendar = Calendar.getInstance(Locale.getDefault());
+        Log.e("Commts Adapter","caleder -------"+calendar.toString());
         calendar.setTimeInMillis(Long.parseLong(timestamp));
         String pTime = DateFormat.format("dd/MM/yyyy hh:mm aa", calendar).toString();
 

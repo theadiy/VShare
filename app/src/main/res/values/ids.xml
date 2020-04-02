@@ -63,4 +63,5 @@
     <item name="VideoPlayerLine2" type="id" />
     <item name="VideoPlayerLikeCommentLayout" type="id" />
     <item name="VideoPlayerLine3" type="id" />
+    <item name="recyclerView" type="id" />
 </resources>

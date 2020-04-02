@@ -167,7 +167,7 @@ public class VideoPlayerActivity extends AppCompatActivity {
                 postComment();
             }
         });
-        Log.e("MSg.....","video id: "+videoId);
+        Log.e("MSg.....1","video id: "+videoId);
 
 
 
@@ -205,7 +205,7 @@ public class VideoPlayerActivity extends AppCompatActivity {
 
 
 
-        loadComment();
+        loadComment(feed.videoId);
 
 
 
@@ -443,7 +443,7 @@ public class VideoPlayerActivity extends AppCompatActivity {
 
     }
 
-    private void loadComment() {
+    private void loadComment(String videoId) {
         //Linear Layout for recycler
 
 
@@ -456,7 +456,7 @@ public class VideoPlayerActivity extends AppCompatActivity {
 
         //path of post
 
-        Log.e("MSg.....","video id: "+videoId);
+        Log.e("MSg.....","video id: "+ videoId);
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Videos").child(videoId).child("comments");
 
 
@@ -545,7 +545,7 @@ public class VideoPlayerActivity extends AppCompatActivity {
 
         String timeStamp = String.valueOf(System.currentTimeMillis());
 
-        Log.e("MSg.....","video id: "+videoId);
+        Log.e("MSg.....2","video id: "+videoId);
 
 
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Videos").child(videoId).child("comments");
