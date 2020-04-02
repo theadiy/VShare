@@ -1,7 +1,6 @@
 package org.terna.vshare;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -10,22 +9,16 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
-import android.content.res.Configuration;
-import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
-import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.media.MediaPlayer;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
-import android.view.Window;
 import android.view.WindowManager;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -53,12 +46,11 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
-import com.google.firebase.storage.StreamDownloadTask;
 import com.squareup.picasso.Picasso;
 
-import java.io.IOException;
-import java.io.InputStream;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -102,7 +94,7 @@ public class VideoPlayerActivity extends AppCompatActivity {
     RelativeLayout commentMainRelativeLayout;
     Boolean isLiked;
 
-    //comment views
+    //com_Des views
     EditText commentEt;
     ImageButton sendBtn;
     ImageView cImageview;
@@ -450,7 +442,7 @@ public class VideoPlayerActivity extends AppCompatActivity {
         LinearLayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
         recyclerView.setLayoutManager(layoutManager);
 
-        //init comment list
+        //init com_Des list
 
         commentList = new ArrayList<>();
 
@@ -468,6 +460,8 @@ public class VideoPlayerActivity extends AppCompatActivity {
                 for (DataSnapshot ds : dataSnapshot.getChildren()){
                     CommentModel commentModel = ds.getValue(CommentModel.class);
 
+                    Log.e(TAG,"model dikhaa ----------"+commentModel.com_Des);
+                    Log.e(TAG,"model dikhaa ----------"+ds.getValue());
                     commentList.add(commentModel);
                     //setup adapter
                     adapterComments = new AdapterComments(getApplicationContext(),commentList);
@@ -532,9 +526,9 @@ public class VideoPlayerActivity extends AppCompatActivity {
 
     private void postComment() {
         pd = new ProgressDialog(this);
-        pd.setMessage("Adding comment");
+        pd.setMessage("Adding com_Des");
 
-        //get  data from comment
+        //get  data from com_Des
         String comment = commentEt.getText().toString().trim();
         //validating
         if(TextUtils.isEmpty(comment)){
@@ -543,17 +537,22 @@ public class VideoPlayerActivity extends AppCompatActivity {
             return;
         }
 
-        String timeStamp = String.valueOf(System.currentTimeMillis());
+        //String timeStamp = String.valueOf(System.currentTimeMillis());
+
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy hh-mm aa");
+        String createdOn = simpleDateFormat.format(new Date());
+
+        SimpleDateFormat timeStampformat = new SimpleDateFormat("dd-MM-yyyy hh-mm-ss");
+        String timeStamp = timeStampformat.format(new Date());
 
         Log.e("MSg.....2","video id: "+videoId);
-
 
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Videos").child(videoId).child("comments");
         HashMap<String, Object> hashMap = new HashMap<>();
         //put info in hashmap
-        hashMap.put("com_id", timeStamp);
+        hashMap.put("com_id", myUid+timeStamp);
         hashMap.put("com_Des", comment);
-        hashMap.put("createdOn", timeStamp);
+        hashMap.put("createdOn", createdOn);
         hashMap.put("uid", myUid);
         hashMap.put("uEmail", myEmail);
         hashMap.put("uDp", myDp);
@@ -561,7 +560,7 @@ public class VideoPlayerActivity extends AppCompatActivity {
 
         //put this data in db
 
-        ref.child(timeStamp).setValue(hashMap)
+        ref.child(myUid+timeStamp).setValue(hashMap)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
@@ -587,7 +586,7 @@ public class VideoPlayerActivity extends AppCompatActivity {
 
 
     private void updateCommentCount() {
-        //comment count
+        //com_Des count
         nProcessComment = true;
         final DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Videos").child(videoId);
         ref.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -598,6 +597,7 @@ public class VideoPlayerActivity extends AppCompatActivity {
                     String comments = ""+ dataSnapshot.child("commentCount").getValue();
                     int newCommentVal = Integer.parseInt(comments) + 1;
                     ref.child("commentCount").setValue(""+newCommentVal);
+                    commentTextView.setText("Comments "+ newCommentVal);
                     nProcessComment = false;
                 }
             }

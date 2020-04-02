@@ -2,46 +2,46 @@ package org.terna.vshare;
 
 public class CommentModel {
 
-    String  cid, comment, createdOn, uid, uEmail, uDp, uName;
+    String com_id, com_Des, createdOn, uid, uEmail, uDp, uName;
 
     public CommentModel() {
 
 
     }
 
-    public CommentModel( String cid, String comment, String timestamp, String uid, String uEmail, String uDp, String uName) {
+    public CommentModel(String com_id, String com_Des, String createdOn, String uid, String uEmail, String uDp, String uName) {
 
-        this.cid = cid;
-        this.comment = comment;
-        this.createdOn = timestamp;
+        this.com_id = com_id;
+        this.com_Des = com_Des;
+        this.createdOn = createdOn;
         this.uid = uid;
         this.uEmail = uEmail;
         this.uDp = uDp;
         this.uName = uName;
     }
 
-    public String getCid() {
-        return cid;
+    public String getCom_id() {
+        return com_id;
     }
 
-    public void setCid(String cid) {
-        this.cid = cid;
+    public void setCom_id(String com_id) {
+        this.com_id = com_id;
     }
 
-    public String getComment() {
-        return comment;
+    public String getCom_Des() {
+        return com_Des;
     }
 
-    public void setComment(String comment) {
-        this.comment = comment;
+    public void setCom_Des(String com_Des) {
+        this.com_Des = com_Des;
     }
 
-    public String getTimestamp() {
+    public String getCreatedOn() {
         return createdOn;
     }
 
-    public void setTimestamp(String timestamp) {
-        this.createdOn = timestamp;
+    public void setCreatedOn(String createdOn) {
+        this.createdOn = createdOn;
     }
 
     public String getUid() {

@@ -47,19 +47,14 @@ public class AdapterComments extends  RecyclerView.Adapter<AdapterComments.MyHol
         String name = commentList.get(i).getuName();
         String email = commentList.get(i).getuEmail();
         String image = commentList.get(i).getuDp();
-        String cid = commentList.get(i).getCid();
-        String comment = commentList.get(i).getComment();
-        String timestamp = commentList.get(i).getTimestamp();
+        String cid = commentList.get(i).getCom_id();
+        String comment = commentList.get(i).getCom_Des();
+        String timestamp = commentList.get(i).getCreatedOn();
 
-        //timestamp
-        Calendar calendar = Calendar.getInstance(Locale.getDefault());
-        Log.e("Commts Adapter","caleder -------"+calendar.toString());
-        calendar.setTimeInMillis(Long.parseLong(timestamp));
-        String pTime = DateFormat.format("dd/MM/yyyy hh:mm aa", calendar).toString();
 
         myHolder.uname.setText(name);
         myHolder.commentTv.setText(comment);
-        myHolder.timeTv.setText(pTime);
+        myHolder.timeTv.setText(timestamp);
 
         try {
             Picasso.get().load(image).placeholder(R.drawable.ic_profile_photo).into(myHolder.cImageview);
